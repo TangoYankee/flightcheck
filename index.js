@@ -1,4 +1,5 @@
 const flightAware = require('./flightaware.js');
+const slack = require('./slack.js');
 var config = require('./config');
 
 var express = require('express');
