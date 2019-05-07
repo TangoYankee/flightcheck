@@ -1,4 +1,4 @@
-const flightAware = require('./flight-aware.js');
+const flightAware = require('./flightaware.js');
 var config = require('./config');
 
 var express = require('express');
