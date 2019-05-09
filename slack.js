@@ -1,22 +1,24 @@
 var config = require('./config');
+var request = require('request');
+
+// Credentials
+var clientId = config.slack.client_id;
+var clientSecret = config.slack.client_secret;
 
 var methods = {};
 
-//TODO: Move Authorization code here
-method.oauth = function(req, res) {
-    // When a user authorizes an app, a code query parameter is passed on the oAuth endpoint. If that code is not there, we respond with an error message
+methods.oauth = function(req, res) {
+    // When a user authorizes an app, pass a code query parameter on the oAuth endpoint. If that code is not there, respond with an error message
     if (!req.query.code) {
         res.status(500);
-        res.send({"Error": "Looks like we're not getting code."});
-        console.log("Looks like we're not getting code.");
+        res.send({"Error": "Code not received."});
+        console.log("Code not received.");
     } else {
-        // If it's there...
-
-        // We'll do a GET call to Slack's `oauth.access` endpoint, passing our app's client ID, client secret, and the code we just got as query parameters.
+        // A GET call to Slack's `oauth.access` endpoint- passing app's client ID, client secret, and the newly recieved code as query parameters.
         request({
-            url: config.slack.url, //URL to hit
-            qs: {code: req.query.code, client_id: clientId, client_secret: clientSecret}, //Query string data
-            method: 'GET', //Specify the method
+            url: config.slack.url,
+            qs: {code: req.query.code, client_id: clientId, client_secret: clientSecret},
+            method: 'GET',
 
         }, function (error, response, body) {
             if (error) {

@@ -3,7 +3,6 @@ const slack = require('./slack.js');
 var config = require('./config');
 
 var express = require('express');
-var request = require('request');
 const bodyParser = require('body-parser');
 
 var restclient = require('restler');
@@ -13,47 +12,21 @@ const username = config.flight_aware.user;
 const apiKey = config.flight_aware.key;
 var fxml_url = config.flight_aware.url;
 
-// Slack
-var clientId = config.slack.client_id;
-var clientSecret = config.slack.client_secret;
-
 var app = express();
 const PORT = config.port;
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 app.listen(PORT, () => {
-    console.log(`Example app listening on port ${PORT}`)
+    console.log(`slack-flightaware listening on port ${PORT}`)
 });
 
 app.get('/', (req, res) => {
     res.send(`Ngrok is working! Path Hit: ${req.url}`)
 });
 
-app.get('/oauth', function(req, res) {
-    // When a user authorizes an app, a code query parameter is passed on the oAuth endpoint. If that code is not there, we respond with an error message
-    if (!req.query.code) {
-        res.status(500);
-        res.send({"Error": "Looks like we're not getting code."});
-        console.log("Looks like we're not getting code.");
-    } else {
-        // If it's there...
-
-        // We'll do a GET call to Slack's `oauth.access` endpoint, passing our app's client ID, client secret, and the code we just got as query parameters.
-        request({
-            url: config.slack.url, //URL to hit
-            qs: {code: req.query.code, client_id: clientId, client_secret: clientSecret}, //Query string data
-            method: 'GET', //Specify the method
-
-        }, function (error, response, body) {
-            if (error) {
-                console.log(error);
-            } else {
-                res.json(body);
-
-            }
-        })
-    }
+app.get('/oauth', (req, res) => {
+    slack.oauth(req, res);
 });
 
 app.post('/inflightinfo', (req, res)=>{

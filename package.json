@@ -4,9 +4,9 @@
     "description": "FlightAware integration with Slack",
     "author": "Timothy Miller miller.tim108@gmail.com",
     "license": "MIT",
-    "main": "index.js",
+    "main": "app.js",
     "scripts": {
-        "start": "node index.js"
+        "start": "node app.js"
     },
     "dependencies": {
         "@slack/client": "^4.12.0",
