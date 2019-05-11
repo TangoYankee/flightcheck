@@ -27,6 +27,27 @@ app.post('/inflightinfo', (req, res)=>{
 });
 
 app.post('/enroute', (req, res)=>{
-    var airport = req.body.text
-    flightAware.data.getEnroute(res, airport);
-});
+        var channel_id = req.body.channel_id
+        console.log(channel_id)
+        var message = {
+            "channel": `${channel_id}`,
+            "blocks": [
+                {
+                    "type": "image",
+                    "title": {
+                        "type": "plain_text",
+                        "text": "Example Image",
+                        "emoji": true
+                    },
+                    "image_url": "https://api.slack.com/img/blocks/bkb_template_images/goldengate.png",
+                    "alt_text": "Example Image"
+                }
+            ]
+          }
+        res.json(message)
+    });
+
+// app.post('/enroute', (req, res)=>{
+//     var airport = req.body.text
+//     flightAware.data.getEnroute(res, airport);
+// });

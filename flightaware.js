@@ -33,7 +33,8 @@ methods.getInFlightInfo = function (res, call_sign){
         query: {ident: call_sign}
     }).on('success', (result) => {
         var flight_info = result.InFlightInfoResult;
-        res.send(`position of ${call_sign}\nLatitude: ${flight_info.longitude}, Latitude: ${flight_info.latitude}`);
+        res.send(`position of ${call_sign}\nLatitude: ${flight_info.longitude}, Latitude: ${flight_info.latitude}
+        \nhttps://www.google.com/maps/search/${flight_info.latitude},${flight_info.longitude}/@${flight_info.latitude}059,-122.2704844,13z`);
     });
 }
 
