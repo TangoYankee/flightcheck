@@ -11,12 +11,10 @@ const PORT = config.port;
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-app.listen(PORT, () => {
-    console.log(`${package.name} listening on port ${PORT}`)
-});
+app.listen(PORT);
 
 app.get('/', (req, res) => {
-    res.send(`Ngrok is working! Path Hit: ${req.url}`)
+    res.send(`${package.name} is working on ngrok. hit path "${req.url}" at port ${PORT}`)
 });
 
 app.get('/oauth', (req, res) => {
