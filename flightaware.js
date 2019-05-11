@@ -13,19 +13,15 @@ methods.getEnroute = function(res, airport){
         password: apiKey,
         query: {airport: airport, howMany: 15, order: 'estimatedarrivaltime', sort: 'DSC'}
     }).on('success', (result, response) => {
-        var entries = result.EnrouteResult.enroute;
-        var schedule = "";
+        var flights = result.EnrouteResult.enroute;
+        var schedule = [];
         var count = 0;
-        entries.forEach((entry, index) => {
-            var flight = `Aircraft Call Sign: ${entry.ident}, Depart Time: ${entry.actualdeparturetime} \n` 
+        flights.forEach((flight, index) => {
+            schedule[index] = `\ncall sign: ${flight.ident}, depart time: ${flight.actualdeparturetime}`;
             count++
-            // TODO: Create a well formatted message for enRoute flights
-            schedule + flight;
-            console.log(schedule);
         });
-        console.log(schedule)
-        if (count == entries.length){
-            res.send(count.toString())
+        if (count == flights.length){
+            res.send(`${airport} schedule${schedule}`)
         }        
     });
 }
@@ -36,10 +32,8 @@ methods.getInFlightInfo = function (res, call_sign){
         password: apiKey,
         query: {ident: call_sign}
     }).on('success', (result, response) => {
-        var entry = result.InFlightInfoResult;
-        var flight_string = `Call Sign: ${entry.ident}; long, lat: ${entry.longitude}, ${entry.latitude}; update type: ${entry.updateType}`
-        console.log(`module ${flight_string}`);
-        res.send(flight_string);
+        var flight_info = result.InFlightInfoResult;
+        res.send(`position of ${call_sign}\nLatitude: ${flight_info.longitude}, Latitude: ${flight_info.latitude}`);
     });
 }
 
