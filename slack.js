@@ -12,7 +12,6 @@ methods.oauth = function(req, res) {
     if (!req.query.code) {
         res.status(500);
         res.send({"Error": "Code not received."});
-        console.log("Code not received.");
     } else {
         // A GET call to Slack's `oauth.access` endpoint- passing app's client ID, client secret, and the newly recieved code as query parameters.
         request({
@@ -20,9 +19,9 @@ methods.oauth = function(req, res) {
             qs: {code: req.query.code, client_id: clientId, client_secret: clientSecret},
             method: 'GET',
 
-        }, function (error, response, body) {
+        }, function (error, body) {
             if (error) {
-                console.log(error);
+                res.send(error.toString());
             } else {
                 res.json(body);
 

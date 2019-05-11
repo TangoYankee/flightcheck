@@ -12,7 +12,7 @@ methods.getEnroute = function(res, airport){
         username: username,
         password: apiKey,
         query: {airport: airport, howMany: 15, order: 'estimatedarrivaltime', sort: 'DSC'}
-    }).on('success', (result, response) => {
+    }).on('success', (result) => {
         var flights = result.EnrouteResult.enroute;
         var schedule = [];
         var count = 0;
@@ -31,7 +31,7 @@ methods.getInFlightInfo = function (res, call_sign){
         username: username,
         password: apiKey,
         query: {ident: call_sign}
-    }).on('success', (result, response) => {
+    }).on('success', (result) => {
         var flight_info = result.InFlightInfoResult;
         res.send(`position of ${call_sign}\nLatitude: ${flight_info.longitude}, Latitude: ${flight_info.latitude}`);
     });
