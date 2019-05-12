@@ -47,14 +47,25 @@ methods.getInFlightInfo = (resolve, call_sign) => {
     });
 }
 
-methods.sendMessage = (res, flight_info, inflight_info, channel_id) => {
+methods.sendMessage = (res, flight_info, inflight_info) => {
     var milli_to_sec = 1000;
     var filed_departuretime = new Date(flight_info.filed_departuretime*milli_to_sec).toUTCString();
-    var actualdeparturetime = new Date(flight_info.actualdeparturetime*milli_to_sec).toUTCString();
+    var actualdeparturetime = new Date(inflight_info.departureTime*milli_to_sec).toUTCString();
     var estimatedarrivaltime = new Date(flight_info.estimatedarrivaltime*milli_to_sec).toUTCString();
-    var actualarrivaltime = new Date(flight_info.actualarrivaltime*milli_to_sec).toUTCString();
+    var actualarrivaltime_epoch = inflight_info.arrivalTime;
+    if (actualarrivaltime_epoch == 0){
+        var actualarrivaltime = "still in flight";
+    }else{
+        var actualarrivaltime = new Date(actualarrivaltime_epoch*milli_to_sec).toUTCString();
+    }
+    if (flight_info.diverted){
+        var diverted = "yes"
+    } else {
+        var diverted = "no"
+    }
     var message = {
-        "channel": `${channel_id}`,
+        // "channel": `${channel_id}`,
+        "response_type": "in_channel",
         "blocks": [
                 {
                     "type": "section",
@@ -67,7 +78,7 @@ methods.sendMessage = (res, flight_info, inflight_info, channel_id) => {
                     *Actual Depature Time:* ${actualdeparturetime}
                     *Estimated Arrival Time:* ${estimatedarrivaltime}
                     *Actual Arrival Time*: ${actualarrivaltime}
-                    *Diverted:* ${flight_info.diverted}
+                    *Diverted:* ${diverted}
                     *Origin:* ${flight_info.originName}, ${flight_info.originCity} (${flight_info.origin})
                     *Destination:* ${flight_info.destinationName}, ${flight_info.destinationCity} (${flight_info.destination})`
                     }
@@ -97,6 +108,22 @@ methods.sendMessage = (res, flight_info, inflight_info, channel_id) => {
         ]
     }
     res.json(message)
+}
+
+methods.test = () => {
+    restclient.get(`${fxml_url}FlightInfo`, {
+        username: username,
+        password: apiKey,
+        query: {ident: "asa1927", howMany: 15}
+    }).on('success', (result) => {
+        var milli_to_sec = 1000;
+        var flight_plans = result.FlightInfoResult.flights;
+        flight_plans.forEach(flight_plan => {
+            var filed_dep_time = new Date(flight_plan.filed_departuretime*milli_to_sec).toUTCString();
+            var actualdeparturetime = new Date(flight_plan.actualdeparturetime*milli_to_sec).toUTCString();
+            console.log(`Call Sign: ${flight_plan.ident} Type Aircraft: ${flight_plan.aircrafttype} Filed dep time: ${filed_dep_time} Actual Dep Time: ${actualdeparturetime} Origin:${flight_plan.origin} Dest: ${flight_plan.destination}`);
+        });
+    });
 }
 
 exports.data = methods;

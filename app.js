@@ -42,3 +42,7 @@ app.post('/enroute', (req, res)=>{
     var airport = req.body.text
     flightAware.data.getEnroute(res, airport);
 });
+
+app.get('/test', (req, res) =>{
+    flightAware.data.test();
+});
