@@ -22,57 +22,20 @@ app.get('/oauth', (req, res) => {
 });
 
 app.post('/inflightinfo', (req, res)=>{
+    // Retrieve flight and inflight information simultaneously. 
+    // The alternative is only getting inflight info after checking
+    // from flight info that the aircraft is actually in the air.
+    // It increases costs in unneccessary API calls. However, it 
+    // saves time when both calls were needed.
     var call_sign = req.body.text
     var channel_id = req.body.channel_id
-    flightAware.data.getInFlightInfo(res, call_sign, channel_id);
-    var flight_info = flightAware.data.getFlightInfo(call_sign);
-    var inflight_info = flightAware.data.getInFlightInfo(call_sign);
-    if (flight_info && inflight_info) {
-        var message = {
-        "channel": `${channel_id}`,
-        "blocks": [
-                {
-                    "type": "section",
-                    "text": {
-                        "type": "mrkdwn",
-                        "text": `
-                        *Call Sign:* ${flight_info.ident}
-                        *Type Aircraft:* ${flight_info.aircrafttype}
-                        *Filed Departure Time:* ${flight_info.filed_departuretime}
-                        *Actual Depature Time:* ${flight_info.actualdeparturetime}
-                        *Estimated Arrival Time:* ${flight_info.estimatedarrivaltime}
-                        *Actual Arrival Time*: ${flight_info.actualarrivaltime}
-                        *Diverted:* ${flight_info.diverted}
-                        *Origin:* ${flight_info.originName}, ${flight_info.originCity} (${flight_info.origin})
-                        *Destination:* ${flight_info.destinationName}, ${flight_info.destinationCity} (${flight_info.destination})`
-                    }
-                },
-                {
-                    "type": "image",
-                    "title": {
-                        "type": "plain_text",
-                        "text": `${flight_info.ident} map preview`,
-                        "emoji": true
-                    },
-                    "image_url": `https://open.mapquestapi.com/staticmap/v5/map?locations=${inflight_info.latitude},${inflight_info.longitude}&size=@2x&zoom=8&key=${config.mapquest.maps_key}`,
-                    "alt_text": "map of aircraft"
-                }
-            ],
-        "attachments": [
-            {
-            "fallback": `View your flights at https://www.openstreetmap.org/?mlat=${inflight_info.latitude}&mlon=${inflight_info.longitude}&zoom=9#map=9/${inflight_info.latitude}/${inflight_info.longitude}`,
-            "actions": [
-                {
-                "type": "button",
-                "text": "View full map",
-                "url": `https://www.openstreetmap.org/?mlat=${inflight_info.latitude}&mlon=${inflight_info.longitude}&zoom=9#map=9/${inflight_info.latitude}/${inflight_info.longitude}`
-                }
-            ]
-            }
-        ]
-        }
-    res.json(message)
-    }
+    var flight_info = new Promise ((resolve) => {flightAware.data.getFlightInfo(resolve, call_sign)} );
+    var inflight_info = new Promise ((resolve) => {flightAware.data.getInFlightInfo(resolve, call_sign)});
+    Promise.all([flight_info, inflight_info]).then(values => {
+        flight_info = values[0];
+        inflight_info = values[1];
+        flightAware.data.sendMessage(res, flight_info, inflight_info, channel_id)
+    })
 });
 
 app.post('/enroute', (req, res)=>{
