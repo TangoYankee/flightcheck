@@ -146,4 +146,15 @@ methods.setDelayMessage = (delayed_airport) => {
     return JSON.stringify(message)
 }
 
+// TODO: format using Slock Block builder
+methods.setHelpMessage = (message) => {
+    return `${message}
+    these commands are available:
+    status [aircraft callsign] ex) [/flightcheck status aa100], to find out whether your aircraft is delayed
+    status [airport identifier] ex) [/flightcheck status ksfo], for any delays at the airport
+    position [aircraft call sign] ex) [/flightcheck position aa100], to see a map of the aircraft
+    help, to see this menu
+    `
+}
+
 exports.data = methods;
