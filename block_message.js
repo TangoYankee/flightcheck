@@ -4,6 +4,7 @@ var config = require('./config.js')
 var methods = {}
 
 methods.setTrackMessage = (flight_track) => {
+    // TODO: Check each field that must be sent through a function
     if (flight_track.flightTracks.length != 0) {
         return {
             "response_type": "in_channel",
@@ -56,45 +57,62 @@ methods.setTrackMessage = (flight_track) => {
 }
 
 methods.setStatusMessage = (flight_status) => {
-    var flt_status = flight_status.flightStatuses[0]
-    var airports = flight_status.appendix.airports;
-    var message = {
-        "response_type": "in_channel",
-        "blocks": [
-            {
-                "type": "section",
-                "text": {
-                    "type": "mrkdwn",
-                    "text": `*Call Sign:* ${flt_status.carrierFsCode}${flt_status.flightNumber}\n*Type Aircraft:* ${flight_status.appendix.equipments[0].name}`
+    // TODO: Check each field that must be sent through a function
+    if (flight_status) {
+        // console.log(JSON.stringify(flight_status));
+        var flt_status = flight_status.flightStatuses[0]
+        var airports = flight_status.appendix.airports;
+        return {
+            "response_type": "in_channel",
+            "blocks": [
+                {
+                    "type": "section",
+                    "text": {
+                        "type": "mrkdwn",
+                        "text": `*Call Sign:* ${flt_status.carrierFsCode}${flt_status.flightNumber}\n*Type Aircraft:* ${flight_status.appendix.equipments[0].name}`
+                    }
+                },
+                {
+                    "type": "divider"
+                },
+                {
+                    "type": "section",
+                    "text": {
+                        "type": "mrkdwn",
+                        "text": `*Departing:*\n${airports[0].name} (${airports[0].icao});\n${airports[0].city}, ${airports[0].stateCode} ${airports[0].countryName}\n_Local time ${formatter.data.formatDateTime(airports[0].localTime)}_\n*Arriving:*\n${airports[1].name} (${airports[1].icao})\n${airports[1].city}, ${airports[1].stateCode} ${airports[1].countryName}\n_Local time ${formatter.data.formatDateTime(airports[1].localTime)}_`
+                    }
+                },
+                {
+                    "type": "divider"
+                },
+                {
+                    "type": "section",
+                    "text": {
+                        "type": "mrkdwn",
+                        "text": `*Flight Time:* ${formatter.data.formatFlightTime(flt_status.flightDurations.scheduledBlockMinutes)}\n*Gate Departure:*\nScheduled _${formatter.data.formatDateTime(flt_status.operationalTimes.scheduledGateDeparture.dateLocal)}_ (local) _${formatter.data.formatDateTime(flt_status.operationalTimes.scheduledGateDeparture.dateUtc)}_ (UTC)\nEstimated _${formatter.data.formatDateTime(flt_status.operationalTimes.estimatedGateDeparture.dateLocal)}_ (local) _${formatter.data.formatDateTime(flt_status.operationalTimes.estimatedGateDeparture.dateUtc)}_ (UTC)\nTerminal _${flt_status.airportResources.departureTerminal}_, Gate _${flt_status.airportResources.departureGate}_\n*Gate Arrival*\nScheduled _${formatter.data.formatDateTime(flt_status.operationalTimes.scheduledGateArrival.dateLocal)}_ (local) _${formatter.data.formatDateTime(flt_status.operationalTimes.scheduledGateArrival.dateUtc)}_ (UTC)\nEstimated _${formatter.data.formatDateTime(flt_status.operationalTimes.estimatedGateArrival.dateLocal)}_ (Local) _${formatter.data.formatDateTime(flt_status.operationalTimes.estimatedGateArrival.dateUtc)}_ (UTC)\nTerminal _${flt_status.airportResources.arrivalTerminal}_`
+                    }
                 }
-            },
-            {
-                "type": "divider"
-            },
-            {
-                "type": "section",
-                "text": {
-                    "type": "mrkdwn",
-                    "text": `*Departing:*\n${airports[0].name} (${airports[0].icao});\n${airports[0].city}, ${airports[0].stateCode} ${airports[0].countryName}\n_Local time ${formatter.data.formatDateTime(airports[0].localTime)}_\n*Arriving:*\n${airports[1].name} (${airports[1].icao})\n${airports[1].city}, ${airports[1].stateCode} ${airports[1].countryName}\n_Local time ${formatter.data.formatDateTime(airports[1].localTime)}_`
+            ]
+        }
+    } else {
+        return {
+            "response_type": "in_channel",
+            "blocks": [
+                {
+                    "type": "section",
+                    "text": {
+                        "type": "mrkdwn",
+                        "text": `Cannot find a status for that aircraft. It may be hidden from public view.`
+                    }
                 }
-            },
-            {
-                "type": "divider"
-            },
-            {
-                "type": "section",
-                "text": {
-                    "type": "mrkdwn",
-                    "text": `*Flight Time:* ${formatter.data.formatFlightTime(flt_status.flightDurations.scheduledBlockMinutes)}\n*Gate Departure:*\nScheduled _${formatter.data.formatDateTime(flt_status.operationalTimes.scheduledGateDeparture.dateLocal)}_ (local) _${formatter.data.formatDateTime(flt_status.operationalTimes.scheduledGateDeparture.dateUtc)}_ (UTC)\nEstimated _${formatter.data.formatDateTime(flt_status.operationalTimes.estimatedGateDeparture.dateLocal)}_ (local) _${formatter.data.formatDateTime(flt_status.operationalTimes.estimatedGateDeparture.dateUtc)}_ (UTC)\nTerminal _${flt_status.airportResources.departureTerminal}_, Gate _${flt_status.airportResources.departureGate}_\n*Gate Arrival*\nScheduled _${formatter.data.formatDateTime(flt_status.operationalTimes.scheduledGateArrival.dateLocal)}_ (local) _${formatter.data.formatDateTime(flt_status.operationalTimes.scheduledGateArrival.dateUtc)}_ (UTC)\nEstimated _${formatter.data.formatDateTime(flt_status.operationalTimes.estimatedGateArrival.dateLocal)}_ (Local) _${formatter.data.formatDateTime(flt_status.operationalTimes.estimatedGateArrival.dateUtc)}_ (UTC)\nTerminal _${flt_status.airportResources.arrivalTerminal}_`
-                }
-            }
-        ]
+            ]
+        }
     }
-    return message;
 }
 
 methods.setDelayMessage = (delayed_airport) => {
-    var message = {
+    // TODO: Check each field that must be sent through a function
+    return {
         "response_type": "in_channel",
         "blocks": [
             {
@@ -148,10 +166,9 @@ methods.setDelayMessage = (delayed_airport) => {
             }
         ]
     }
-    return message
 }
 
-// TODO: format using Slock Block builder
+// TODO: format using Slack Block builder
 methods.setHelpMessage = (message) => {
     return `${message}
     these commands are available:

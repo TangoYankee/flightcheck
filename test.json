@@ -1,54 +1,192 @@
 {
     "request": {
-        "airportCodes": [
+        "airline": {
+            "requestedCode": "gti",
+            "fsCode": "5Y"
+        },
+        "flight": {
+            "requested": "8946",
+            "interpreted": "8946"
+        },
+        "date": {
+            "year": "2019",
+            "month": "5",
+            "day": "16",
+            "interpreted": "2019-05-16"
+        },
+        "utc": {
+            "requested": "true",
+            "interpreted": true
+        },
+        "airport": {},
+        "codeType": {},
+        "extendedOptions": {},
+        "url": "https://api.flightstats.com/flex/flightstatus/rest/v2/json/flight/status/gti/8946/dep/2019/5/16"
+    },
+    "appendix": {
+        "airlines": [
             {
-                "requestedCode": "ksfo",
-                "fsCode": "SFO"
+                "fs": "5Y",
+                "iata": "5Y",
+                "icao": "GTI",
+                "name": "Atlas Air",
+                "active": true
             }
         ],
-        "codeType": {},
-        "url": "https://api.flightstats.com/flex/delayindex/rest/v1/json/airports/ksfo",
-        "classification": {},
-        "score": {}
-    },
-    "delayIndexes": [
-        {
-            "airport": {
-                "fs": "SFO",
-                "iata": "SFO",
-                "icao": "KSFO",
-                "faa": "SFO",
-                "name": "San Francisco International Airport",
-                "city": "San Francisco",
-                "cityCode": "SFO",
+        "airports": [
+            {
+                "fs": "HNL",
+                "iata": "HNL",
+                "icao": "PHNL",
+                "faa": "PHNL",
+                "name": "Daniel K. Inouye International Airport",
+                "street1": "300 Rodgers Blvd., #12",
+                "city": "Honolulu",
+                "cityCode": "HNL",
+                "stateCode": "HI",
+                "postalCode": "96819",
+                "countryCode": "US",
+                "countryName": "United States",
+                "regionName": "North America",
+                "timeZoneRegionName": "Pacific/Honolulu",
+                "weatherZone": "HIZ002",
+                "localTime": "2019-05-16T13:06:14.532",
+                "utcOffsetHours": -10,
+                "latitude": 21.325833,
+                "longitude": -157.921667,
+                "elevationFeet": 13,
+                "classification": 1,
+                "active": true,
+                "delayIndexUrl": "https://api.flightstats.com/flex/delayindex/rest/v1/json/airports/HNL?codeType=fs",
+                "weatherUrl": "https://api.flightstats.com/flex/weather/rest/v1/json/all/HNL?codeType=fs"
+            },
+            {
+                "fs": "SUU",
+                "iata": "SUU",
+                "icao": "KSUU",
+                "faa": "SUU",
+                "name": "Travis Air Force Base",
+                "city": "Fairfield",
+                "cityCode": "SUU",
                 "stateCode": "CA",
-                "postalCode": "94128",
                 "countryCode": "US",
                 "countryName": "United States",
                 "regionName": "North America",
                 "timeZoneRegionName": "America/Los_Angeles",
-                "weatherZone": "CAZ508",
-                "localTime": "2019-05-16T10:50:30.811",
-                "utcOffsetHours": -7.0,
-                "latitude": 37.615215,
-                "longitude": -122.389881,
-                "elevationFeet": 11,
-                "classification": 1,
+                "weatherZone": "",
+                "localTime": "2019-05-16T16:06:14.532",
+                "utcOffsetHours": -7,
+                "latitude": 38.264321,
+                "longitude": -121.936722,
+                "elevationFeet": 47,
+                "classification": 4,
                 "active": true,
-                "weatherUrl": "https://api.flightstats.com/flex/weather/rest/v1/json/all/SFO?codeType=fs"
+                "delayIndexUrl": "https://api.flightstats.com/flex/delayindex/rest/v1/json/airports/SUU?codeType=fs",
+                "weatherUrl": "https://api.flightstats.com/flex/weather/rest/v1/json/all/SUU?codeType=fs"
             },
-            "rawScore": 143.72,
-            "normalizedScore": 5.0,
-            "dateStart": "2019-05-16T17:00:00.000Z",
-            "dateEnd": "2019-05-16T20:00:00.000Z",
-            "flights": 134,
-            "observations": 132,
-            "canceled": 4,
-            "onTime": 82,
-            "delayed15": 13,
-            "delayed30": 11,
-            "delayed45": 22,
-            "delta": 0.0
+            {
+                "fs": "DNA",
+                "iata": "DNA",
+                "icao": "RODN",
+                "faa": "",
+                "name": "Kadena Air Force Base",
+                "city": "Okinawa",
+                "cityCode": "OKA",
+                "countryCode": "JP",
+                "countryName": "Japan",
+                "regionName": "Asia",
+                "timeZoneRegionName": "Asia/Tokyo",
+                "weatherZone": "",
+                "localTime": "2019-05-17T08:06:14.532",
+                "utcOffsetHours": 9,
+                "latitude": 26.35,
+                "longitude": 127.766667,
+                "elevationFeet": 146,
+                "classification": 4,
+                "active": true,
+                "delayIndexUrl": "https://api.flightstats.com/flex/delayindex/rest/v1/json/airports/DNA?codeType=fs",
+                "weatherUrl": "https://api.flightstats.com/flex/weather/rest/v1/json/all/DNA?codeType=fs"
+            }
+        ],
+        "equipments": [
+            {
+                "iata": "74Y",
+                "name": "Boeing 747-400 Freighter",
+                "turboProp": false,
+                "jet": true,
+                "widebody": true,
+                "regional": false
+            }
+        ]
+    },
+    "flightStatuses": [
+        {
+            "flightId": 1000281858,
+            "carrierFsCode": "5Y",
+            "flightNumber": "8946",
+            "departureAirportFsCode": "HNL",
+            "arrivalAirportFsCode": "SUU",
+            "departureDate": {
+                "dateLocal": "2019-05-16T08:30:00.000",
+                "dateUtc": "2019-05-16T18:30:00.000Z"
+            },
+            "arrivalDate": {
+                "dateLocal": "2019-05-16T16:19:00.000",
+                "dateUtc": "2019-05-16T23:19:00.000Z"
+            },
+            "status": "A",
+            "operationalTimes": {
+                "scheduledGateDeparture": {
+                    "dateLocal": "2019-05-16T08:30:00.000",
+                    "dateUtc": "2019-05-16T18:30:00.000Z"
+                },
+                "estimatedRunwayDeparture": {
+                    "dateLocal": "2019-05-16T08:55:00.000",
+                    "dateUtc": "2019-05-16T18:55:00.000Z"
+                },
+                "actualRunwayDeparture": {
+                    "dateLocal": "2019-05-16T08:55:00.000",
+                    "dateUtc": "2019-05-16T18:55:00.000Z"
+                },
+                "estimatedRunwayArrival": {
+                    "dateLocal": "2019-05-16T16:08:00.000",
+                    "dateUtc": "2019-05-16T23:08:00.000Z"
+                }
+            },
+            "flightEquipment": {
+                "actualEquipmentIataCode": "74Y",
+                "tailNumber": "N472MC"
+            }
+        },
+        {
+            "flightId": 1000279176,
+            "carrierFsCode": "5Y",
+            "flightNumber": "8946",
+            "departureAirportFsCode": "DNA",
+            "arrivalAirportFsCode": "HNL",
+            "departureDate": {
+                "dateLocal": "2019-05-16T15:20:00.000",
+                "dateUtc": "2019-05-16T06:20:00.000Z"
+            },
+            "arrivalDate": {
+                "dateLocal": "2019-05-16T04:54:00.000",
+                "dateUtc": "2019-05-16T14:54:00.000Z"
+            },
+            "status": "S",
+            "operationalTimes": {
+                "scheduledGateDeparture": {
+                    "dateLocal": "2019-05-16T15:20:00.000",
+                    "dateUtc": "2019-05-16T06:20:00.000Z"
+                },
+                "estimatedRunwayArrival": {
+                    "dateLocal": "2019-05-16T04:54:00.000",
+                    "dateUtc": "2019-05-16T14:54:00.000Z"
+                }
+            },
+            "flightEquipment": {
+                "actualEquipmentIataCode": "74Y",
+                "tailNumber": "N472MC"
+            }
         }
     ]
 }
