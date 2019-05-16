@@ -5,18 +5,14 @@ var methods = {}
 
 methods.setTrackMessage = (flight_track) => {
     if (flight_track.flightTracks.length != 0) {
-        var message = {
+        return {
             "response_type": "in_channel",
             "blocks": [
                 {
                     "type": "section",
                     "text": {
                         "type": "mrkdwn",
-                        "text": `
-                        *Call Sign:* ${flight_track.flightTracks[0].callsign}
-                        *Departed at:* ${formatter.data.formatDateTime(flight_track.flightTracks[0].departureDate.dateLocal)} (Local), ${formatter.data.formatDateTime(flight_track.flightTracks[0].departureDate.dateUtc)} (UTC)
-                        *Postion at:* ${formatter.data.formatDateTime(flight_track.flightTracks[0].positions[0].date)} (UTC)
-                        *Traveling* from ${flight_track.flightTracks[0].departureAirportFsCode} to ${flight_track.flightTracks[0].arrivalAirportFsCode}`
+                        "text": `*Call Sign:* ${flight_track.flightTracks[0].callsign}\n*Departed at:* ${formatter.data.formatDateTime(flight_track.flightTracks[0].departureDate.dateLocal)} (Local), ${formatter.data.formatDateTime(flight_track.flightTracks[0].departureDate.dateUtc)} (UTC)\n*Postion at:* ${formatter.data.formatDateTime(flight_track.flightTracks[0].positions[0].date)} (UTC)\n*Traveling* from ${flight_track.flightTracks[0].departureAirportFsCode} to ${flight_track.flightTracks[0].arrivalAirportFsCode}`
                     }
                 },
                 {
@@ -43,11 +39,20 @@ methods.setTrackMessage = (flight_track) => {
                 }
             ]
         }
-        return JSON.stringify(message)
     } else {
-        return `Cannot find a position for ${flight_track.request.airline.requestedCode}${flight_track.request.flight.requested}. It may not be airborne`
+        return {
+            "response_type": "in_channel",
+            "blocks": [
+                {
+                    "type": "section",
+                    "text": {
+                        "type": "mrkdwn",
+                        "text": `Cannot find a position for ${flight_track.request.airline.requestedCode}${flight_track.request.flight.requested}. It may not be airborne`
+                    }
+                }
+            ]
+        }
     }
-
 }
 
 methods.setStatusMessage = (flight_status) => {
@@ -85,7 +90,7 @@ methods.setStatusMessage = (flight_status) => {
             }
         ]
     }
-    return JSON.stringify(message);
+    return message;
 }
 
 methods.setDelayMessage = (delayed_airport) => {
@@ -143,7 +148,7 @@ methods.setDelayMessage = (delayed_airport) => {
             }
         ]
     }
-    return JSON.stringify(message)
+    return message
 }
 
 // TODO: format using Slock Block builder
@@ -153,8 +158,7 @@ methods.setHelpMessage = (message) => {
     status [aircraft callsign] ex) [/flightcheck status aa100], to find out whether your aircraft is delayed
     status [airport identifier] ex) [/flightcheck status ksfo], for any delays at the airport
     position [aircraft call sign] ex) [/flightcheck position aa100], to see a map of the aircraft
-    help, to see this menu
-    `
+    help, to see this menu`
 }
 
 exports.data = methods;

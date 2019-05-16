@@ -1,5 +1,5 @@
 // const flightAware = require('./flightaware.js');
-const flighstats = require('./flightstats.js')
+const flightstats = require('./flightstats.js')
 const slack = require('./slack.js');
 var config = require('./config.js');
 const package = require('./package.json')
@@ -44,6 +44,6 @@ app.get('/oauth', (req, res) => {
 //     flightAware.data.getEnroute(res, airport);
 // });
 
-app.post('/flightcheck', (req, res) =>{
+app.post('/flightcheck', (req, res) => {
     flightstats.data.controlInput(req.body.text, res)
 });

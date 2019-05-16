@@ -8,81 +8,61 @@ var track_no_data = require('./track_no.json'); //Test data
 
 var methods = {};
 
-// console.log(messages.data.setDelayMessage(delay_data));
-// console.log(messages.data.setStatusMessage(flight_status_data));
-// console.log(messages.data.setTrackMessage(track_no_data));
-// console.log(messages.data.setTrackMessage(track_data));
+methods.getFlightStatus = (callsign, res) => {
+    var today = new Date();
+    var carrier = callsign.match(/[a-zA-Z]+/)[0];
+    var flight = callsign.match(/\d+/)[0];
+    var uri = `https://api.flightstats.com/flex/flightstatus/rest/v2/json/flight/status/${carrier}/${flight}/dep/${today.getUTCFullYear()}/${today.getUTCMonth() + 1}/${today.getUTCDate()}`;
+    request({
+        url: uri,
+        qs: { appId: config.flightstats.app_id, appKey: config.flightstats.key, utc: "true" },
+        method: 'GET',
 
-// uri = "https://api.flightstats.com/flex/flightstatus/{protocol}/v2/json/flight/status/{carrier}/{flight}/arr/{year}/{month}/{day}"
-
-// var today = new Date();
-// var call_sign = "AA 100"
-// var carrier = call_sign.match(/[a-zA-Z]+/)[0];
-// var flight = call_sign.match(/\d+/)[0];
-
-// Use UTC time to ease concerns about where the source of the "local time" is
-// Offset month by one, as Node's Month in Date starts at 0?!
-// uri = `https://api.flightstats.com/flex/flightstatus/rest/v2/json/flight/status/${carrier}/${flight}/dep/${today.getUTCFullYear()}/${today.getUTCMonth()+1}/${today.getUTCDate()}`
-// method = 'GET'
-
-// request({
-//     url: uri,
-//     qs: {appId: config.flightstats.app_id, appKey: config.flightstats.key, utc: "true"},
-//     method: 'GET',
-
-// }, function (error, response, body) {
-//     console.error('error:', error); // Print the error if one occurred
-//     console.log('statusCode:', response && response.statusCode); // Print the response status code if a response was received
-//     console.log('body:', body); // Print the HTML for the Google homepage.
-// })
-
-// Three requests:
-
-
-req_one = "status aa100";
-req_two = "status sfo";
-req_three = "position aa100";
-
-methods.getFlightStatus = (callsign) => {
-    // request({
-//     url: uri,
-//     qs: {appId: config.flightstats.app_id, appKey: config.flightstats.key, utc: "true"},
-//     method: 'GET',
-
-// }, function (error, response, body) {
-//     console.error('error:', error); // Print the error if one occurred
-//     console.log('statusCode:', response && response.statusCode); // Print the response status code if a response was received
-//     console.log('body:', body); // Print the HTML for the Google homepage.
-// })
-    return messages.data.setStatusMessage(flight_status_data)
+    }, function (error, response, body) {
+        if (error) {
+            res.send(error.toString());
+        } else {
+            res.json(messages.data.setStatusMessage(JSON.parse(body)));
+        }
+    })
 }
 
-methods.getFlightTrack = (callsign) => {
-    // request({
-//     url: uri,
-//     qs: {appId: config.flightstats.app_id, appKey: config.flightstats.key, utc: "true"},
-//     method: 'GET',
+methods.getFlightTrack = (callsign, res) => {
+    var today = new Date();
+    var carrier = callsign.match(/[a-zA-Z]+/)[0];
+    var flight = callsign.match(/\d+/)[0];
+    var uri = `https://api.flightstats.com/flex/flightstatus/rest/v2/json/flight/tracks/${carrier}/${flight}/dep/${today.getUTCFullYear()}/${today.getUTCMonth() + 1}/${today.getUTCDate()}`;
+    request({
+        url: uri,
+        qs: { appId: config.flightstats.app_id, appKey: config.flightstats.key, utc: "true" },
+        method: 'GET',
 
-// }, function (error, response, body) {
-//     console.error('error:', error); // Print the error if one occurred
-//     console.log('statusCode:', response && response.statusCode); // Print the response status code if a response was received
-//     console.log('body:', body); // Print the HTML for the Google homepage.
-// })
-    return messages.data.setTrackMessage(track_data)
+    }, function (error, response, body) {
+        if (error) {
+            res.send(error.toString());
+        } else {
+            res.json(messages.data.setTrackMessage(JSON.parse(body)));
+        }
+    })
 }
 
-methods.getDelayIndex = (identifier) => {
-    // request({
-//     url: uri,
-//     qs: {appId: config.flightstats.app_id, appKey: config.flightstats.key, utc: "true"},
-//     method: 'GET',
+methods.getDelayIndex = (identifier, res) => {
+    // console.log(identifier);
+    uri = `https://api.flightstats.com/flex/delayindex/rest/v1/json/airports/${identifier}`
+    request({
+        url: uri,
+        qs: { appId: config.flightstats.app_id, appKey: config.flightstats.key },
+        method: 'GET',
 
-// }, function (error, response, body) {
-//     console.error('error:', error); // Print the error if one occurred
-//     console.log('statusCode:', response && response.statusCode); // Print the response status code if a response was received
-//     console.log('body:', body); // Print the HTML for the Google homepage.
-// })
-    return messages.data.setDelayMessage(delay_data);
+    }, function (error, response, body) {
+        if (error) {
+            res.send(error.toString());
+        } else {
+            // console.log(body);
+            // res.send(messages.data.setDelayMessage(body.text));
+            res.json(messages.data.setDelayMessage(JSON.parse(body)));
+        }
+    })
 }
 
 
@@ -95,14 +75,11 @@ methods.controlInput = (user_input, res) => {
             case commands[0]:
                 console.log("Looking for status")
                 if (user_input_split[1] && user_input_split[1].match(/\d+/)) {
-                    // TODO lookup flight status
-                    // Any further errors will be checked by the API. They will sent as messages for the help message
-                    // res.send(getFlightStatus(user_input_split[1]))
                     console.log("exists and contains numbers")
+                    methods.getFlightStatus(user_input_split[1], res);
                 } else if (user_input_split[1]) {
                     console.log("exists but excludes numbers")
-                    //TODO lookup airport delay index
-                    // Any further errors will be checked by the API. They will sent as messages for the help message
+                    methods.getDelayIndex(user_input_split[1], res);
                 } else {
                     console.log(messages.data.setHelpMessage("please provide an aircraft callsign or airport identifier"))
                 }
@@ -111,6 +88,7 @@ methods.controlInput = (user_input, res) => {
                 console.log("Looking for position")
                 // Check whether the second position contains data
                 if (user_input_split[1]) {
+                    methods.getFlightTrack(user_input_split[1], res);
                     console.log("exists")
                     // Lookup aircraft track
                     // Any further errors will be checked by the API. They will sent as messages for the help message
