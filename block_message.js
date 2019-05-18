@@ -156,7 +156,6 @@ methods.setDelayMessage = (delayed_airport) => {
     }
 }
 
-// TODO: format using Slack Block builder
 methods.setHelpMessage = (message) => {
     return {
         "response_type": "in_channel",

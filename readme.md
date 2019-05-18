@@ -10,4 +10,8 @@ Dockerize
 
 [Lint](https://eslint.org/docs/user-guide/getting-started)
 
+Linting
+
 `npx eslint *.js`
+
+Load Keys from configuration file

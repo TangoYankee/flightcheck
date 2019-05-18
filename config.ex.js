@@ -1,16 +1,18 @@
 var config = {};
 
-config.flight_aware = {};
 config.slack = {};
+config.mapquest = {};
+config.flightstats = {};
 
 // TODO: process.env for usernames and keys
-config.flight_aware.user = "";
-config.flight_aware.key = "";
-config.flight_aware.url = "";
+config.slack.client_id = process.env.SLACK_CLIENT_ID;
+config.slack.client_secret = '';
+config.slack.url = "";// No need to hide this url
 
-config.slack.client_id = "";
-config.slack.client_secret = "";
-config.slack.url = "";
+config.mapquest.maps_key = "";
+
+config.flightstats.key = "";
+config.flightstats.app_id = "";
 
 config.port = 4390;
 
