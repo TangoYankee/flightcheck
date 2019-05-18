@@ -15,3 +15,5 @@ Linting
 `npx eslint *.js`
 
 Load Keys from configuration file
+
+`source config.sh`

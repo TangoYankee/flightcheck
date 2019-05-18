@@ -1,1 +1,0 @@
-console.log(process.env.SLACK_CLIENT_ID);
