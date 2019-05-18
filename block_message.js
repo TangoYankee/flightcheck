@@ -46,19 +46,6 @@ methods.setTrackMessage = (flight_track) => {
         }
     } else {
         return methods.setHelpMessage(`Cannot find a position for ${flight_track.request.airline.requestedCode}${flight_track.request.flight.requested}. It may not be airborne`);
-        // {
-        //     "response_type": "in_channel",
-        //     "blocks": [
-        //         {
-        //             "type": "section",
-        //             "text": {
-        //                 "type": "mrkdwn",
-        //                 // Do not expect the program will get to this point without a requested airline and flight code
-        //                 "text": `Cannot find a position for ${flight_track.request.airline.requestedCode}${flight_track.request.flight.requested}. It may not be airborne`
-        //             }
-        //         }
-        //     ]
-        // }
     }
 }
 
@@ -104,18 +91,6 @@ methods.setStatusMessage = (flight_status) => {
         }
     } else {
         return methods.setHelpMessage("Cannot find a status for that aircraft.");
-        // {
-        //     "response_type": "in_channel",
-        //     "blocks": [
-        //         {
-        //             "type": "section",
-        //             "text": {
-        //                 "type": "mrkdwn",
-        //                 "text": `Cannot find a status for that aircraft. It may be hidden from public view.`
-        //             }
-        //         }
-        //     ]
-        // }
     }
 }
 
@@ -178,18 +153,6 @@ methods.setDelayMessage = (delayed_airport) => {
         }
     } else {
         return methods.setHelpMessage("Cannot find a status for that airport");
-        // {
-        //     "response_type": "in_channel",
-        //     "blocks": [
-        //         {
-        //             "type": "section",
-        //             "text": {
-        //                 "type": "mrkdwn",
-        //                 "text": `Cannot find a status for that airport.`
-        //             }
-        //         }
-        //     ]
-        // }
     }
 }
 
