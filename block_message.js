@@ -16,11 +16,6 @@ methods.setTrackMessage = (flight_track) => {
         } else {
             var positions = ["unknown", 0, 0]
         }
-        if (flight_track.request && flight_track.request.airline && flight_track.request.flight) {
-            var requestedFlight = `${flight_track.request.airline.requestedCode}${flight_track.request.flight.requested}`
-        } else {
-            var requestedFlight = "unknown"
-        }
         return {
             "response_type": "in_channel",
             "blocks": [
@@ -28,12 +23,7 @@ methods.setTrackMessage = (flight_track) => {
                     "type": "section",
                     "text": {
                         "type": "mrkdwn",
-                        "text": `*Call Sign:* ${flight_track.flightTracks[0].callsign}\n*Departed at:* 
-                        ${departureDate[0]} 
-                        (Local), ${departureDate[1]}
-                        (UTC)\n*Postion at:* ${positions[0]} 
-                        (UTC)\n*Traveling* from ${flight_track.flightTracks[0].departureAirportFsCode} to
-                        ${flight_track.flightTracks[0].arrivalAirportFsCode}`
+                        "text": `*Call Sign:* ${flight_track.flightTracks[0].callsign}\n*Departed at:* ${departureDate[0]} (Local), ${departureDate[1]} (UTC)\n*Postion at:* ${positions[0]} (UTC)\n*Traveling:* from ${flight_track.flightTracks[0].departureAirportFsCode} to ${flight_track.flightTracks[0].arrivalAirportFsCode}`
                     }
                 },
                 {
@@ -61,12 +51,16 @@ methods.setTrackMessage = (flight_track) => {
             ]
         }
     } else {
+        if (flight_track.request && flight_track.request.airline && flight_track.request.flight) {
+            var requestedFlight = `${flight_track.request.airline.requestedCode}${flight_track.request.flight.requested}`
+        } else {
+            var requestedFlight = "unknown"
+        }
         return methods.setHelpMessage(`Cannot find a position for ${requestedFlight}. It may not be airborne`);
     }
 }
 
 methods.setStatusMessage = (flight_status) => {
-    // TODO: Check each field that must be sent through a function
     if (flight_status.flightStatuses.length != 0) {
         var flt_status = flight_status.flightStatuses[0];
         var airports = flight_status.appendix.airports;
@@ -80,24 +74,66 @@ methods.setStatusMessage = (flight_status) => {
             var dep_port = airports[0];
             var arr_port = airports[1];
         } else {
-            // User will see "undefined", rather than value of string
-            var dep_port = "";
-            var arr_port = "";
+            var dep_port = "unknown";
+            var arr_port = "unknown";
         }
+        if (flt_status.operationalTimes) {
+            if (flt_status.operationalTimes.scheduledGateDeparture) {
+                var sched_dep_local = formatter.data.formatDateTime(flt_status.operationalTimes.scheduledGateDeparture.dateLocal);
+                var sched_dep_utc = formatter.data.formatDateTime(flt_status.operationalTimes.scheduledGateDeparture.dateUtc);
+            } else {
+                var sched_dep_local = "unknown"
+                var sched_dep_utc = "unknown"
+            }
+            if (flt_status.operationalTimes.estimatedGateDeparture) {
+                var est_dep_local = formatter.data.formatDateTime(flt_status.operationalTimes.estimatedGateDeparture.dateLocal);
+                var est_dep_utc = formatter.data.formatDateTime(flt_status.operationalTimes.estimatedGateDeparture.dateUtc);
+            } else {
 
-        // formatter.data.formatDateTime(flt_status.operationalTimes.scheduledGateDeparture.dateLocal)
-        // formatter.data.formatDateTime(flt_status.operationalTimes.scheduledGateDeparture.dateUtc)
-        // formatter.data.formatDateTime(flt_status.operationalTimes.estimatedGateDeparture.dateLocal) 
-        // formatter.data.formatDateTime(flt_status.operationalTimes.estimatedGateDeparture.dateUtc)
-        // formatter.data.formatDateTime(flt_status.operationalTimes.scheduledGateArrival.dateLocal)
-        // formatter.data.formatDateTime(flt_status.operationalTimes.scheduledGateArrival.dateUtc)
-        // formatter.data.formatDateTime(flt_status.operationalTimes.estimatedGateArrival.dateLocal)
-        // formatter.data.formatDateTime(flt_status.operationalTimes.estimatedGateArrival.dateUtc)
-        // formatter.data.formatFlightTime(flt_status.flightDurations.scheduledBlockMinutes)
-        // flt_status.airportResources.departureTerminal
-        // flt_status.airportResources.departureGate
-        // flt_status.airportResources.arrivalTerminal
+                var est_dep_local = "unknown"
+                var est_dep_utc = "unknown"
+            }
+            if (flt_status.operationalTimes.scheduledGateArrival) {
+                var sched_arr_local = formatter.data.formatDateTime(flt_status.operationalTimes.scheduledGateArrival.dateLocal);
+                var sched_arr_utc = formatter.data.formatDateTime(flt_status.operationalTimes.scheduledGateArrival.dateUtc);
+            } else {
+                var sched_arr_local = "unknown"
+                var sched_arr_utc = "unknown"
 
+            }
+            if (flt_status.operationalTimes.estimatedGateArrival) {
+                var est_arr_local = formatter.data.formatDateTime(flt_status.operationalTimes.estimatedGateArrival.dateLocal);
+                var est_arr_utc = formatter.data.formatDateTime(flt_status.operationalTimes.estimatedGateArrival.dateUtc);
+            } else {
+                var est_arr_local = "unknown"
+                var est_arr_utc = "unknown"
+            }
+        } else {
+            var sched_dep_local = "unknown"
+            var sched_dep_utc = "unknown"
+            var est_dep_local = "unknown"
+            var est_dep_utc = "unknown"
+            var sched_arr_local = "unknown"
+            var sched_arr_utc = "unknown"
+            var est_arr_local = "unknown"
+            var est_arr_utc = "unknown"
+        }
+        if (flt_status.flightDurations) {
+            var scheduledBlockMinutes = formatter.data.formatFlightTime(flt_status.flightDurations.scheduledBlockMinutes)
+        } else {
+            var scheduledBlockMinutes = "unknown"
+        }
+        if (flt_status.airportResources) {
+            var departureTerminal = flt_status.airportResources.departureTerminal;
+            var departureGate = flt_status.airportResources.departureGate;
+            var arrivalTerminal = flt_status.airportResources.arrivalTerminal;
+            var arrivalGate = flt_status.airportResources.arrivalGate;
+        } else {
+            var departureTerminal = "unknown";
+            var departureGate = "unknown";
+            var arrivalTerminal = "unknown";
+            var arrivalGate = "unknown";
+        }
         return {
             "response_type": "in_channel",
             "blocks": [
@@ -125,19 +161,7 @@ methods.setStatusMessage = (flight_status) => {
                     "type": "section",
                     "text": {
                         "type": "mrkdwn",
-                        // TODO: Errors from these fields missing are unhandled
-                        "text": `*Flight Time:* ${formatter.data.formatFlightTime(flt_status.flightDurations.scheduledBlockMinutes)}
-                        \n*Gate Departure:*\nScheduled _${formatter.data.formatDateTime(flt_status.operationalTimes.scheduledGateDeparture.dateLocal)}_ 
-                        (local) _${formatter.data.formatDateTime(flt_status.operationalTimes.scheduledGateDeparture.dateUtc)}_ 
-                        (UTC)\nEstimated _${formatter.data.formatDateTime(flt_status.operationalTimes.estimatedGateDeparture.dateLocal)}_ 
-                        (local) _${formatter.data.formatDateTime(flt_status.operationalTimes.estimatedGateDeparture.dateUtc)}_ 
-                        (UTC)\nTerminal _${flt_status.airportResources.departureTerminal}_, 
-                        Gate _${flt_status.airportResources.departureGate}_\n*Gate Arrival*
-                        \nScheduled _${formatter.data.formatDateTime(flt_status.operationalTimes.scheduledGateArrival.dateLocal)}_ 
-                        (local) _${formatter.data.formatDateTime(flt_status.operationalTimes.scheduledGateArrival.dateUtc)}_ 
-                        (UTC)\nEstimated _${formatter.data.formatDateTime(flt_status.operationalTimes.estimatedGateArrival.dateLocal)}_ 
-                        (Local) _${formatter.data.formatDateTime(flt_status.operationalTimes.estimatedGateArrival.dateUtc)}_ 
-                        (UTC)\nTerminal _${flt_status.airportResources.arrivalTerminal}_`
+                        "text": `*Flight Time:* ${scheduledBlockMinutes}\n*Gate Departure:*\nScheduled _${sched_dep_local}_ (local) _${sched_dep_utc}_ (UTC)\nEstimated _${est_dep_local}_ (local) _${est_dep_utc}_ (UTC)\nTerminal _${departureTerminal}_, Gate _${departureGate}_\n*Gate Arrival*\nScheduled _${sched_arr_local}_ (local) _${sched_arr_utc}_ (UTC)\nEstimated _${est_arr_local}_ (Local) _${est_arr_utc}_ (UTC)\nTerminal _${arrivalTerminal}_ Gate _${arrivalGate}_`
                     }
                 }
             ]
