@@ -10,10 +10,11 @@ methods.getFlightStatus = (callsign, res) => {
     var today = new Date();
     var carrier = callsign.match(/[a-zA-Z]+/)[0];
     var flight = callsign.match(/\d+/)[0];
-    var uri = `https://api.flightstats.com/flex/flightstatus/rest/v2/json/flight/status/${carrier}/${flight}/dep/${today.getUTCFullYear()}/${today.getUTCMonth() + 1}/${today.getUTCDate()}`;
+    // var uri = `https://api.flightstats.com/flex/flightstatus/rest/v2/json/flight/status/${carrier}/${flight}/dep/${today.getUTCFullYear()}/${today.getUTCMonth() + 1}/${today.getUTCDate()}`;
+    var uri = `https://api.flightstats.com/flex/flightstatus/rest/v2/json/flight/status/${carrier}/${flight}/dep/${today.getFullYear()}/${today.getMonth() + 1}/${today.getDate()}`;
     request({
         url: uri,
-        qs: { appId: config.flightstats.app_id, appKey: config.flightstats.key, utc: "true" },
+        qs: { appId: config.flightstats.app_id, appKey: config.flightstats.key, utc: "false" },
         method: 'GET',
 
     }, function (error, response, body) {
@@ -32,10 +33,11 @@ methods.getFlightTrack = (callsign, res) => {
     var today = new Date();
     var carrier = callsign.match(/[a-zA-Z]+/)[0];
     var flight = callsign.match(/\d+/)[0];
-    var uri = `https://api.flightstats.com/flex/flightstatus/rest/v2/json/flight/tracks/${carrier}/${flight}/dep/${today.getUTCFullYear()}/${today.getUTCMonth() + 1}/${today.getUTCDate()}`;
+    // var uri = `https://api.flightstats.com/flex/flightstatus/rest/v2/json/flight/tracks/${carrier}/${flight}/dep/${today.getUTCFullYear()}/${today.getUTCMonth() + 1}/${today.getUTCDate()}`;
+    var uri = `https://api.flightstats.com/flex/flightstatus/rest/v2/json/flight/tracks/${carrier}/${flight}/dep/${today.getFullYear()}/${today.getMonth() + 1}/${today.getDate()}`;
     request({
         url: uri,
-        qs: { appId: config.flightstats.app_id, appKey: config.flightstats.key, utc: "true" },
+        qs: { appId: config.flightstats.app_id, appKey: config.flightstats.key, utc: "false" },
         method: 'GET',
 
     }, function (error, response, body) {

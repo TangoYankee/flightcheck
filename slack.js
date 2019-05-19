@@ -1,9 +1,6 @@
 var config = require('./config');
 var request = require('request');
 
-var clientId = config.slack.client_id;
-var clientSecret = config.slack.client_secret;
-
 var methods = {};
 
 methods.oauth = function (req, res) {
@@ -12,8 +9,8 @@ methods.oauth = function (req, res) {
         res.send({ "Error": "Code not received." });
     } else {
         request({
-            url: config.slack.url,
-            qs: { code: req.query.code, client_id: clientId, client_secret: clientSecret },
+            url: "https=/slack.com/api/oauth.access",
+            qs: { code: req.query.code, client_id: config.slack.client_id, client_secret: config.slack.client_secret },
             method: 'GET',
 
         }, function (error, body) {
