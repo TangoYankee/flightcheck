@@ -1,11 +1,11 @@
 {
-    "name": "slack-flightaware",
+    "name": "slack-flightcheck",
     "version": "0.0.1",
-    "description": "FlightAware integration with Slack",
+    "description": "FlightStats integration with Slack",
     "author": "Timothy Miller miller.tim108@gmail.com",
     "repository": {
         "type": "git",
-        "url": "github.com/tangoyankee/slack-flightaware.git"
+        "url": "github.com/tangoyankee/slack-flightcheck.git"
     },
     "license": "MIT",
     "main": "app.js",
