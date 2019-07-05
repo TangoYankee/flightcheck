@@ -17,3 +17,7 @@ Linting
 Load Keys from configuration file
 
 `source config.sh`
+
+Auto-load changes with nodemon
+
+`npx nodem`
