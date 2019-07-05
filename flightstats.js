@@ -89,7 +89,7 @@ methods.controlInput = (user_input, res) => {
                 if (user_input_split[1] && user_input_split[1].match(/\d+/) && user_input_split[1].match(/[a-zA-Z]+/)) {
                     methods.getFlightTrack(user_input_split[1], res);
                 } else {
-                    res.json(messages.date.setHelpMessage("please provide a valid aircraft callsign"));
+                    res.json(messages.data.setHelpMessage("please provide a valid aircraft callsign"));
                 }
                 break;
             case commands[2]:
