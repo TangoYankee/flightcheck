@@ -282,3 +282,85 @@ methods.setHelpMessage = (message) => {
 }
 
 exports.data = methods;
+
+// Flight Track Simple
+
+// Flight Status Simple
+var flightStatusSimple = {
+    "channel": `${channel_id}`,
+    "response_type": "ephemeral",
+    "blocks": [
+        {
+            "type": "section",
+            "fields": [
+                {
+                    "type": "mrkdwn",
+                    "text": "*Call Sign:* AA2853"
+                },
+                {
+                    "type": "mrkdwn",
+                    "text": "*Flight Time* 3 hr 58 min"
+                }
+            ]
+        },
+        {
+            "type": "divider"
+        },
+        {
+            "type": "section",
+            "fields": [
+                {
+                    "type": "mrkdwn",
+                    "text": "*Departing:* KORD :airplane_departure: \n 1052, July 06 - 10 min late :red_circle: \n Gate: 4, Terminal: 1"
+                },
+                {
+                    "type": "mrkdwn",
+                    "text": "*Arriving:* KJAC :airplane_arriving: \n 1752, July 06 - 8 min early :black_circle: \n Gate: 32, Terminal: C"
+                }
+            ]
+        }
+    ]
+}
+
+// Airport Status Simple
+var airportStatusSimple = {
+    "response_type":"emphemeral",
+    "blocks": [
+        {
+            "type": "section",
+            "text": {
+                "type": "mrkdwn",
+                "text": "*San Francisco International (KSFO)* \n San Francisco, CA United States \n Local time at airport - 11:30 am, July 06"
+            }
+        },
+        {
+            "type": "section",
+            "fields": [
+                {
+                    "type": "mrkdwn",
+                    "text": "*Aircraft on schedule:* 25/81"
+                },
+                {
+                    "type": "mrkdwn",
+                    "text": "*Delay index*: 4/5:warning: - 10% better :thumbsup:"
+                }
+            ]
+        },
+        {
+            "type": "divider"
+        },
+        {
+            "type": "context",
+            "elements": [
+                {
+                    "type": "mrkdwn",
+                    "text": "*Observed:* 1700 July 06 - 1800 July 06 (UTC)"
+                },
+                {
+                    "type": "mrkdwn",
+                    "text": "*Time now:* 1830 July 06 (UTC)"
+                }
+            ]
+        }
+    ]
+}
