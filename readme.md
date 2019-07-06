@@ -21,3 +21,7 @@ Load Keys from configuration file
 Auto-load changes with nodemon
 
 `npx nodem`
+
+Slack Slash Commands
+
+`https://api.slack.com/apps/AHB2H4ABX/slash-commands?saved=1`
