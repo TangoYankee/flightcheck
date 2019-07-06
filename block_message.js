@@ -421,3 +421,58 @@ var airportStatusSimple = {
         }
     ]
 }
+
+// in-depth help message
+[
+	{
+		"type": "section",
+		"text": {
+			"type": "mrkdwn",
+			"text": ":warning: please provide an aircraft callsign or airport identifier with this command option"
+		}
+	},
+	{
+		"type": "divider"
+	},
+	{
+		"type": "section",
+		"text": {
+			"type": "mrkdwn",
+			"text": "*Flightcheck* provides status information on flights and airports, tailored to serve travelers and those looking after them. Please use the following command options to improve your next trip."
+		}
+	},
+	{
+		"type": "section",
+		"fields": [
+			{
+				"type": "mrkdwn",
+				"text": "*status 'flight number':*\n information on flight gates and delays \n _ex)_ `/flightcheck status aa2853`"
+			},
+			{
+				"type": "mrkdwn",
+				"text": "*status 'airport identifier':* \n information on airport delays \n _ex)_ `/flightcheck status ksfo`"
+			},
+			{
+				"type": "mrkdwn",
+				"text": "*position 'flight number':* \n map of the last reported flight location \n _ex)_ `/flightcheck position aa2853`"
+			},
+			{
+				"type": "mrkdwn",
+				"text": "*help* \n return to this menu \n _ex)_ `/flightcheck help`"
+			}
+		]
+	},
+	{
+		"type": "context",
+		"elements": [
+			{
+				"type": "mrkdwn",
+				"text": "Visit the <http://flightcheck.us-east-2.elasticbeanstalk.com/ | Flightcheck homepage>"
+			},
+			{
+				"type": "mrkdwn",
+				"text": "Provide feedback on <https://github.com/tangoyankee/slack-flightcheck | GitHub>"
+			}
+		]
+	}
+]
