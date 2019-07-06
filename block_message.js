@@ -67,12 +67,6 @@ methods.setStatusMessage = (flight_status) => {
     if (flight_status.flightStatuses.length != 0) {
         var flt_status = flight_status.flightStatuses[0];
         var airports = flight_status.appendix.airports;
-        var aircraftType;
-        if (flight_status.appendix.equipments && flight_status.appendix.equipments.length != 0) {
-            aircraftType = flight_status.appendix.equipments[0].name;
-        } else {
-            aircraftType = "unknown";
-        }
         var dep_port;
         var arr_port;
         if (airports && airports.length >= 2) {
@@ -82,109 +76,98 @@ methods.setStatusMessage = (flight_status) => {
             dep_port = "unknown";
             arr_port = "unknown";
         }
-        var sched_dep_local;
-        var sched_dep_utc;
-        var est_dep_local;
-        var est_dep_utc;
-        var sched_arr_local;
-        var sched_arr_utc;
-        var est_arr_local;
-        var est_arr_utc;
+        var sched_dep_local, est_dep_local, sched_arr_local, est_arr_local;
+        var sched_dep_utc, est_dep_utc, sched_arr_utc, est_arr_utc;
         if (flt_status.operationalTimes) {
             if (flt_status.operationalTimes.scheduledGateDeparture) {
                 sched_dep_local = formatter.data.formatDateTime(flt_status.operationalTimes.scheduledGateDeparture.dateLocal);
-                sched_dep_utc = formatter.data.formatDateTime(flt_status.operationalTimes.scheduledGateDeparture.dateUtc);
+                sched_dep_utc = flt_status.operationalTimes.scheduledGateDeparture.dateUtc;
             } else {
-                sched_dep_local = "unknown";
-                sched_dep_utc = "unknown";
+                sched_dep_local = "unknown"
             }
             if (flt_status.operationalTimes.estimatedGateDeparture) {
                 est_dep_local = formatter.data.formatDateTime(flt_status.operationalTimes.estimatedGateDeparture.dateLocal);
-                est_dep_utc = formatter.data.formatDateTime(flt_status.operationalTimes.estimatedGateDeparture.dateUtc);
+                est_dep_utc = flt_status.operationalTimes.estimatedGateDeparture.dateUtc;
             } else {
-                est_dep_local = "unknown";
-                est_dep_utc = "unknown";
-            }
+                est_dep_local = "unknown"
+            } 
             if (flt_status.operationalTimes.scheduledGateArrival) {
                 sched_arr_local = formatter.data.formatDateTime(flt_status.operationalTimes.scheduledGateArrival.dateLocal);
-                sched_arr_utc = formatter.data.formatDateTime(flt_status.operationalTimes.scheduledGateArrival.dateUtc);
+                sched_arr_utc = flt_status.operationalTimes.scheduledGateArrival.dateUtc;
             } else {
-                sched_arr_local = "unknown";
-                sched_arr_utc = "unknown";
-
-            }
+                sched_arr_local = "unknown"
+            } 
             if (flt_status.operationalTimes.estimatedGateArrival) {
                 est_arr_local = formatter.data.formatDateTime(flt_status.operationalTimes.estimatedGateArrival.dateLocal);
-                est_arr_utc = formatter.data.formatDateTime(flt_status.operationalTimes.estimatedGateArrival.dateUtc);
+                est_arr_utc = flt_status.operationalTimes.estimatedGateArrival.dateUtc;
             } else {
-                est_arr_local = "unknown";
-                est_arr_utc = "unknown";
+                est_arr_local = "unknown"
             }
         } else {
             sched_dep_local = "unknown";
-            sched_dep_utc = "unknown";
             est_dep_local = "unknown";
-            est_dep_utc = "unknown";
             sched_arr_local = "unknown";
-            sched_arr_utc = "unknown";
             est_arr_local = "unknown";
-            est_arr_utc = "unknown";
         }
-        var scheduledBlockMinutes;
+        var display_dep_time = formatter.data.formatDisplayTime(est_dep_local, sched_dep_local);
+        var display_arr_time = formatter.data.formatDisplayTime(est_arr_local, sched_arr_local);
+        var dep_time_change_msg = formatter.data.formatChangeSchedTime(est_dep_utc, sched_dep_utc);
+        var arr_time_change_msg = formatter.data.formatChangeSchedTime(est_arr_utc, sched_arr_utc);
+
+        var sched_block_minutes;
         if (flt_status.flightDurations) {
-            scheduledBlockMinutes = formatter.data.formatFlightTime(flt_status.flightDurations.scheduledBlockMinutes);
+            sched_block_minutes = formatter.data.formatFlightTime(flt_status.flightDurations.scheduledBlockMinutes);
         } else {
-            scheduledBlockMinutes = "unknown";
+            sched_block_minutes = "unknown";
         }
-        var departureTerminal;
-        var departureGate;
-        var arrivalTerminal;
-        var arrivalGate;
+        var dep_terminal, dep_gate, arr_terminal, arr_gate;
         if (flt_status.airportResources) {
-            departureTerminal = flt_status.airportResources.departureTerminal;
-            departureGate = flt_status.airportResources.departureGate;
-            arrivalTerminal = flt_status.airportResources.arrivalTerminal;
-            arrivalGate = flt_status.airportResources.arrivalGate;
+            dep_terminal = flt_status.airportResources.departureTerminal;
+            dep_gate = flt_status.airportResources.departureGate;
+            arr_terminal = flt_status.airportResources.arrivalTerminal;
+            arr_gate = flt_status.airportResources.arrivalGate;
         } else {
-            departureTerminal = "unknown";
-            departureGate = "unknown";
-            arrivalTerminal = "unknown";
-            arrivalGate = "unknown";
+            dep_terminal = "unknown";
+            dep_gate = "unknown";
+            arr_terminal = "unknown";
+            arr_gate = "unknown";
         }
         return {
-            "response_type": "in_channel",
+            "response_type": "ephemeral",
             "blocks": [
                 {
                     "type": "section",
-                    "text": {
-                        "type": "mrkdwn",
-                        "text": `*Call Sign:* ${flt_status.carrierFsCode}${flt_status.flightNumber}\n*Type Aircraft:* ${aircraftType}`
-                    }
+                    "fields": [
+                        {
+                            "type": "mrkdwn",
+                            "text": `*Call sign:* ${flt_status.carrierFsCode}${flt_status.flightNumber}`
+                        },
+                        {
+                            "type": "mrkdwn",
+                            "text": `*Flight time:* ${sched_block_minutes}`
+                        }
+                    ]
                 },
                 {
                     "type": "divider"
                 },
                 {
                     "type": "section",
-                    "text": {
-                        "type": "mrkdwn",
-                        "text": `*Departing:*\n${dep_port.name} (${dep_port.icao});\n${dep_port.city}, ${dep_port.stateCode} ${dep_port.countryName}\n_Local time ${formatter.data.formatDateTime(dep_port.localTime)}_\n*Arriving:*\n${arr_port.name} (${arr_port.icao})\n${arr_port.city}, ${arr_port.stateCode} ${arr_port.countryName}\n_Local time ${formatter.data.formatDateTime(arr_port.localTime)}_`
-                    }
-                },
-                {
-                    "type": "divider"
-                },
-                {
-                    "type": "section",
-                    "text": {
-                        "type": "mrkdwn",
-                        "text": `*Flight Time:* ${scheduledBlockMinutes}\n*Gate Departure:*\nScheduled _${sched_dep_local}_ (local) _${sched_dep_utc}_ (UTC)\nEstimated _${est_dep_local}_ (local) _${est_dep_utc}_ (UTC)\nTerminal _${departureTerminal}_, Gate _${departureGate}_\n*Gate Arrival*\nScheduled _${sched_arr_local}_ (local) _${sched_arr_utc}_ (UTC)\nEstimated _${est_arr_local}_ (Local) _${est_arr_utc}_ (UTC)\nTerminal _${arrivalTerminal}_ Gate _${arrivalGate}_`
-                    }
+                    "fields": [
+                        {
+                            "type": "mrkdwn",
+                            "text": `*Departing:* ${dep_port.icao} :airplane_departure: \n ${display_dep_time} - ${dep_time_change_msg} \n Gate: ${dep_gate}, Terminal: ${dep_terminal}`
+                        },
+                        {
+                            "type": "mrkdwn",
+                            "text": `*Arriving:* ${arr_port.icao} :airplane_arriving: \n ${display_arr_time} - ${arr_time_change_msg} \n Gate: ${arr_gate}, Terminal: ${arr_terminal}`
+                        }
+                    ]
                 }
             ]
         }
     } else {
-        return methods.setHelpMessage("Cannot find a status for that aircraft.");
+        return methods.setHelpMessage(":warning:cannot find a status for that aircraft");
     }
 }
 
@@ -274,7 +257,7 @@ methods.setHelpMessage = (message) => {
                 "type": "section",
                 "text": {
                     "type": "mrkdwn",
-                    "text": "*Flightcheck* provides status information on flights and airports, tailored to serve travelers and those looking after them. Please use the following command options to improve your next trip."
+                    "text": "*flightcheck* provides status information on flights and airports, tailored to serve travelers and those looking after them. Please use the following command options to improve your next trip."
                 }
             },
             {
@@ -370,43 +353,6 @@ var flightPositionSimple = {
                     "type": "button",
                     "text": "View full map",
                     "url": `https://www.openstreetmap.org/`
-                }
-            ]
-        }
-    ]
-}
-
-// Flight Status Simple
-var flightStatusSimple = {
-    "channel": "${channel_id}",
-    "response_type": "ephemeral",
-    "blocks": [
-        {
-            "type": "section",
-            "fields": [
-                {
-                    "type": "mrkdwn",
-                    "text": "*Call sign:* AA2853"
-                },
-                {
-                    "type": "mrkdwn",
-                    "text": "*Flight time* 3 hr 58 min"
-                }
-            ]
-        },
-        {
-            "type": "divider"
-        },
-        {
-            "type": "section",
-            "fields": [
-                {
-                    "type": "mrkdwn",
-                    "text": "*Departing:* KORD :airplane_departure: \n 1052, July 06 - 10 min late :red_circle: \n Gate: 4, Terminal: 1"
-                },
-                {
-                    "type": "mrkdwn",
-                    "text": "*Arriving:* KJAC :airplane_arriving: \n 1752, July 06 - 8 min early :black_circle: \n Gate: 32, Terminal: C"
                 }
             ]
         }
