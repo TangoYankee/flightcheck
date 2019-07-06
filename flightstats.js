@@ -82,25 +82,25 @@ methods.controlInput = (user_input, res) => {
                 } else if (user_input_split[1] && user_input_split[1].match(/[a-zA-Z]+/)) {
                     methods.getDelayIndex(user_input_split[1], res);
                 } else {
-                    res.json(messages.data.setHelpMessage("please provide an aircraft callsign or airport identifier"))
+                    res.json(messages.data.setHelpMessage(":warning:please provide an aircraft callsign or airport identifier"))
                 }
                 break;
             case commands[1]:
                 if (user_input_split[1] && user_input_split[1].match(/\d+/) && user_input_split[1].match(/[a-zA-Z]+/)) {
                     methods.getFlightTrack(user_input_split[1], res);
                 } else {
-                    res.json(messages.data.setHelpMessage("please provide a valid aircraft callsign"));
+                    res.json(messages.data.setHelpMessage(":warning:please provide a valid aircraft callsign"));
                 }
                 break;
             case commands[2]:
-                res.json(messages.data.setHelpMessage("Welcome to Flightcheck!"))
+                res.json(messages.data.setHelpMessage("Welcome to Flightcheck!:confetti_ball:"))
                 break;
             default:
-                res.json(messages.data.setHelpMessage("Selected option not recognized"))
+                res.json(messages.data.setHelpMessage(":warning:selected option not recognized"))
         }
 
     } else {
-        res.json(messages.data.setHelpMessage('This message has an unexpected format. Please check the spacing in your command.'))
+        res.json(messages.data.setHelpMessage(':warning:this message has an unexpected format. please check the spacing in your command.'))
     }
 }
 
