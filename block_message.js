@@ -283,7 +283,64 @@ methods.setHelpMessage = (message) => {
 
 exports.data = methods;
 
-// Flight Track Simple
+// Flight Position Simple
+var flightPositionSimple = {
+    "request_type": "ephemeral",
+    "blocks": [
+        {
+            "type": "section",
+            "fields": [
+                {
+                    "type": "mrkdwn",
+                    "text": "*Call sign:* AA2853"
+                },
+                {
+                    "type": "mrkdwn",
+                    "text": "*Traveling:* KSFO - KSMF"
+                },
+                {
+                    "type": "mrkdwn",
+                    "text": "*Departure time: * 1000 July 01 (UTC)"
+                },
+                            {
+                    "type": "mrkdwn",
+                    "text": "*Time of request: * 1230 July 01 (UTC)"
+                }
+            ]
+        },
+        {
+            "type": "image",
+            "title": {
+                "type": "plain_text",
+                "text": "AA2853 position",
+                "emoji": true
+            },
+            "image_url": "https://open.mapquestapi.com/staticmap/v5/map?locations=33.1978,-86.8236&size=@2x&zoom=8&key=RNIhBjnrevcx8yjIyYS3AsJwORR7Azgr",
+            "alt_text": "map of aircraft"
+        },
+        {
+            "type": "context",
+            "elements": [
+                {
+                    "type": "mrkdwn",
+                    "text": "Last updated: 1130 July 01 (UTC)"
+                }
+            ]
+        }
+    ],
+    "attachments": [
+        {
+            "fallback": `View your flights at https://www.openstreetmap.org/?mlat=${positions[1]}&mlon=${positions[2]}&zoom=9#map=9/${positions[1]}/${positions[2]}`,
+            "actions": [
+                {
+                    "type": "button",
+                    "text": "View full map",
+                    "url": `https://www.openstreetmap.org/?mlat=${positions[1]}&mlon=${positions[2]}&zoom=9#map=9/${positions[1]}/${positions[2]}`
+                }
+            ]
+        }
+    ]
+}
 
 // Flight Status Simple
 var flightStatusSimple = {
@@ -295,11 +352,11 @@ var flightStatusSimple = {
             "fields": [
                 {
                     "type": "mrkdwn",
-                    "text": "*Call Sign:* AA2853"
+                    "text": "*Call sign:* AA2853"
                 },
                 {
                     "type": "mrkdwn",
-                    "text": "*Flight Time* 3 hr 58 min"
+                    "text": "*Flight time* 3 hr 58 min"
                 }
             ]
         },
@@ -358,7 +415,7 @@ var airportStatusSimple = {
                 },
                 {
                     "type": "mrkdwn",
-                    "text": "*Time now:* 1830 July 06 (UTC)"
+                    "text": "*Time of request:* 1830 July 06 (UTC)"
                 }
             ]
         }
