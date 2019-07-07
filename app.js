@@ -1,5 +1,6 @@
 const flightstats = require('./flightstats.js')
 const slack = require('./slack.js');
+const link = require('/link.js');
 var config = require('./config.js');
 
 var express = require('express');
@@ -23,5 +24,10 @@ app.get('/oauth', (req, res) => {
 });
 
 app.post('/flightcheck', (req, res) => {
-    flightstats.data.controlInput(req.body.text, res)
+    flightstats.data.controlInput(req.body.text, res);
 });
+
+app.post('/link', (req, res)=> {
+    link.data.formatLink(req.body.text, res);
+}
+)
