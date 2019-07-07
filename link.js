@@ -1,36 +1,55 @@
 var request = require("request");
 
+var methods = {};
+
 methods.formatLink = (user_input, res) => {
     var user_input_split = user_input.split(' ');
-    if (user_input_split.length <= 3 && user_input_split.length >= 1){
-        if (user_input_split[0] == "help") {
+    var user_input_split_len = user_input_split.length;
+    // Test that there is only one user input and that it is 'help'
+    if (user_input_split_len == 1 && user_input_split[0] == "help") {
+        res.json({
+            "response_type": "ephemeral",
+            "blocks": [
+                {
+                    "type": "section",
+                    "text": {
+                        "type": "mrkdwn",
+                        "text": "help message"
+                    }
+                }
+            ]
+        })
+    // Test that there are exactly two user inputs
+    } else if (user_input_split_len == 2) {
+        var original_url = user_input_split[0];
+        var split_url;
+        var new_url;
+        // Test that it contains "|" indicating it's been recognized as a hyperlink
+        if (original_url.indexOf("|")) {
+            // Format the hyperlink and return it as a message
+            split_url = original_url.split["|"];
+            new_url = `${split_url[0]}|${user_input_split[1]}>`;
             res.json({
-                "response_type":"in_channel",
+                "response_type": "in_channel",
                 "blocks": [
                     {
                         "type": "section",
                         "text": {
                             "type": "mrkdwn",
-                            "text": "help message"
+                            "text": new_url
                         }
                     }
                 ]
             })
         } else {
-            let message;
-            if (user_input_split[2]){
-                message = user_input_split[2];
-            } else {
-                message = "";
-            }
             res.json({
-                "response_type":"in_channel",
+                "response_type": "ephemeral",
                 "blocks": [
                     {
                         "type": "section",
                         "text": {
-                            "type" : "mrkdwn",
-                            "text": `${message} <${user_input_split[0]} | ${user_input_split[1]}>`
+                            "type": "mrkdwn",
+                            "text": `:warning:${original_url} is not a recognized url. Help Message`
                         }
                     }
                 ]
@@ -38,13 +57,13 @@ methods.formatLink = (user_input, res) => {
         }
     } else {
         res.json({
-            "response_type":"in_channel",
+            "response_type": "emphemeral",
             "blocks": [
                 {
                     "type": "section",
                     "text": {
                         "type": "mrkdwn",
-                        "text": "please enter an option"
+                        "text": "did not recognize that option. help message"
                     }
                 }
             ]
@@ -52,4 +71,4 @@ methods.formatLink = (user_input, res) => {
     }
 }
 
-exports.data = methods;
+    exports.data = methods;

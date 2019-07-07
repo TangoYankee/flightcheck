@@ -1,6 +1,6 @@
 const flightstats = require('./flightstats.js')
 const slack = require('./slack.js');
-const link = require('/link.js');
+const link = require('./link.js');
 var config = require('./config.js');
 
 var express = require('express');
