@@ -27,7 +27,7 @@ methods.formatLink = (user_input, res) => {
         // Test that it contains "|" indicating it's been recognized as a hyperlink
         if (original_url.indexOf("|")) {
             // Format the hyperlink and return it as a message
-            split_url = original_url.split["|"];
+            split_url = original_url.split("|");
             new_url = `${split_url[0]}|${user_input_split[1]}>`;
             res.json({
                 "response_type": "in_channel",
