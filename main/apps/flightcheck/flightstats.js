@@ -1,6 +1,6 @@
-var config = require('./config.js');
 var request = require('request');
 var messages = require('./block_message.js');
+var config = require('./config.js');
 
 const commands = ["status", "position", "help"];
 var methods = {};

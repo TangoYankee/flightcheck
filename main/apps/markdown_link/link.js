@@ -1,5 +1,3 @@
-var request = require("request");
-
 var methods = {};
 
 methods.formatLink = (user_input, res) => {
@@ -71,4 +69,4 @@ methods.formatLink = (user_input, res) => {
     }
 }
 
-    exports.data = methods;
+exports.data = methods;
