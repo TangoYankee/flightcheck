@@ -1,0 +1,54 @@
+{
+    "request": {
+        "airline": {
+            "requestedCode": "AA",
+            "fsCode": "AA"
+        },
+        "flight": {
+            "requested": "100",
+            "interpreted": "100"
+        },
+        "date": {
+            "year": "2019",
+            "month": "5",
+            "day": "15",
+            "interpreted": "2019-05-15"
+        },
+        "hourOfDay": {
+            "interpreted": 0
+        },
+        "numHours": {
+            "interpreted": 24
+        },
+        "utc": {
+            "requested": "true",
+            "interpreted": true
+        },
+        "airport": {},
+        "includeFlightPlan": {
+            "requested": "false",
+            "interpreted": false
+        },
+        "maxPositions": {
+            "requested": "2",
+            "interpreted": 2
+        },
+        "maxPositionAgeMinutes": {},
+        "codeType": {},
+        "extendedOptions": {},
+        "url": "https://api.flightstats.com/flex/flightstatus/rest/v2/json/flight/tracks/AA/100/dep/2019/5/15"
+    },
+    "appendix": {
+        "airlines": [
+            {
+                "fs": "AA",
+                "iata": "AA",
+                "icao": "AAL",
+                "name": "American Airlines",
+                "phoneNumber": "08457-567-567",
+                "active": true
+            }
+        ]
+    },
+    "flightTracks": []
+}

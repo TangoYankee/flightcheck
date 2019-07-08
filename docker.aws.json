@@ -1,7 +1,7 @@
 {
     "AWSEBDockerrunVersion": "1",
     "Image": { 
-        "Name": "tangoyankee/slack-flightaware",
+        "Name": "tangoyankee/slack-flightcheck",
         "Update": true
     },
     "Ports":[

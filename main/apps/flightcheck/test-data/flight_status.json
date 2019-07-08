@@ -1,0 +1,256 @@
+{
+    "request": {
+        "airline": {
+            "requestedCode": "AA",
+            "fsCode": "AA"
+        },
+        "flight": {
+            "requested": "100",
+            "interpreted": "100"
+        },
+        "date": {
+            "year": "2019",
+            "month": "5",
+            "day": "13",
+            "interpreted": "2019-05-13"
+        },
+        "utc": {
+            "interpreted": false
+        },
+        "airport": {},
+        "codeType": {},
+        "extendedOptions": {},
+        "url": "https://api.flightstats.com/flex/flightstatus/rest/v2/json/flight/status/AA/100/dep/2019/5/13"
+    },
+    "appendix": {
+        "airlines": [
+            {
+                "fs": "AA",
+                "iata": "AA",
+                "icao": "AAL",
+                "name": "American Airlines",
+                "phoneNumber": "08457-567-567",
+                "active": true
+            },
+            {
+                "fs": "LY",
+                "iata": "LY",
+                "icao": "ELY",
+                "name": "El Al",
+                "phoneNumber": "+ 972-3-9771111",
+                "active": true
+            },
+            {
+                "fs": "AY",
+                "iata": "AY",
+                "icao": "FIN",
+                "name": "Finnair",
+                "phoneNumber": "+ 358 600 140 140",
+                "active": true
+            },
+            {
+                "fs": "IB",
+                "iata": "IB",
+                "icao": "IBE",
+                "name": "Iberia",
+                "phoneNumber": "1800 772 4642",
+                "active": true
+            },
+            {
+                "fs": "BA",
+                "iata": "BA",
+                "icao": "BAW",
+                "name": "British Airways",
+                "phoneNumber": "1-800-AIRWAYS",
+                "active": true
+            },
+            {
+                "fs": "GF",
+                "iata": "GF",
+                "icao": "GFA",
+                "name": "Gulf Air",
+                "phoneNumber": "973 17 335 777",
+                "active": true
+            }
+        ],
+        "airports": [
+            {
+                "fs": "JFK",
+                "iata": "JFK",
+                "icao": "KJFK",
+                "faa": "JFK",
+                "name": "John F. Kennedy International Airport",
+                "street1": "JFK Airport",
+                "city": "New York",
+                "cityCode": "NYC",
+                "stateCode": "NY",
+                "postalCode": "11430",
+                "countryCode": "US",
+                "countryName": "United States",
+                "regionName": "North America",
+                "timeZoneRegionName": "America/New_York",
+                "weatherZone": "NYZ178",
+                "localTime": "2019-05-13T22:14:24.661",
+                "utcOffsetHours": -4.0,
+                "latitude": 40.642335,
+                "longitude": -73.78817,
+                "elevationFeet": 13,
+                "classification": 1,
+                "active": true,
+                "delayIndexUrl": "https://api.flightstats.com/flex/delayindex/rest/v1/json/airports/JFK?codeType=fs",
+                "weatherUrl": "https://api.flightstats.com/flex/weather/rest/v1/json/all/JFK?codeType=fs"
+            },
+            {
+                "fs": "LHR",
+                "iata": "LHR",
+                "icao": "EGLL",
+                "faa": "",
+                "name": "London Heathrow Airport",
+                "city": "London",
+                "cityCode": "LON",
+                "stateCode": "EN",
+                "countryCode": "GB",
+                "countryName": "United Kingdom",
+                "regionName": "Europe",
+                "timeZoneRegionName": "Europe/London",
+                "weatherZone": "",
+                "localTime": "2019-05-14T03:14:24.661",
+                "utcOffsetHours": 1.0,
+                "latitude": 51.469603,
+                "longitude": -0.453566,
+                "elevationFeet": 80,
+                "classification": 1,
+                "active": true,
+                "delayIndexUrl": "https://api.flightstats.com/flex/delayindex/rest/v1/json/airports/LHR?codeType=fs",
+                "weatherUrl": "https://api.flightstats.com/flex/weather/rest/v1/json/all/LHR?codeType=fs"
+            }
+        ],
+        "equipments": [
+            {
+                "iata": "77W",
+                "name": "Boeing 777-300ER",
+                "turboProp": false,
+                "jet": true,
+                "widebody": true,
+                "regional": false
+            }
+        ]
+    },
+    "flightStatuses": [
+        {
+            "flightId": 999610884,
+            "carrierFsCode": "AA",
+            "flightNumber": "100",
+            "departureAirportFsCode": "JFK",
+            "arrivalAirportFsCode": "LHR",
+            "departureDate": {
+                "dateLocal": "2019-05-13T18:10:00.000",
+                "dateUtc": "2019-05-13T22:10:00.000Z"
+            },
+            "arrivalDate": {
+                "dateLocal": "2019-05-14T06:20:00.000",
+                "dateUtc": "2019-05-14T05:20:00.000Z"
+            },
+            "status": "A",
+            "schedule": {
+                "flightType": "J",
+                "serviceClasses": "RFJY",
+                "restrictions": ""
+            },
+            "operationalTimes": {
+                "publishedDeparture": {
+                    "dateLocal": "2019-05-13T18:10:00.000",
+                    "dateUtc": "2019-05-13T22:10:00.000Z"
+                },
+                "publishedArrival": {
+                    "dateLocal": "2019-05-14T06:20:00.000",
+                    "dateUtc": "2019-05-14T05:20:00.000Z"
+                },
+                "scheduledGateDeparture": {
+                    "dateLocal": "2019-05-13T18:10:00.000",
+                    "dateUtc": "2019-05-13T22:10:00.000Z"
+                },
+                "estimatedGateDeparture": {
+                    "dateLocal": "2019-05-13T17:59:00.000",
+                    "dateUtc": "2019-05-13T21:59:00.000Z"
+                },
+                "actualGateDeparture": {
+                    "dateLocal": "2019-05-13T17:59:00.000",
+                    "dateUtc": "2019-05-13T21:59:00.000Z"
+                },
+                "flightPlanPlannedDeparture": {
+                    "dateLocal": "2019-05-13T18:45:00.000",
+                    "dateUtc": "2019-05-13T22:45:00.000Z"
+                },
+                "estimatedRunwayDeparture": {
+                    "dateLocal": "2019-05-13T18:45:00.000",
+                    "dateUtc": "2019-05-13T22:45:00.000Z"
+                },
+                "actualRunwayDeparture": {
+                    "dateLocal": "2019-05-13T18:45:00.000",
+                    "dateUtc": "2019-05-13T22:45:00.000Z"
+                },
+                "scheduledGateArrival": {
+                    "dateLocal": "2019-05-14T06:20:00.000",
+                    "dateUtc": "2019-05-14T05:20:00.000Z"
+                },
+                "estimatedGateArrival": {
+                    "dateLocal": "2019-05-14T06:02:00.000",
+                    "dateUtc": "2019-05-14T05:02:00.000Z"
+                },
+                "flightPlanPlannedArrival": {
+                    "dateLocal": "2019-05-14T06:10:00.000",
+                    "dateUtc": "2019-05-14T05:10:00.000Z"
+                },
+                "estimatedRunwayArrival": {
+                    "dateLocal": "2019-05-14T05:52:00.000",
+                    "dateUtc": "2019-05-14T04:52:00.000Z"
+                }
+            },
+            "codeshares": [
+                {
+                    "fsCode": "AY",
+                    "flightNumber": "4012",
+                    "relationship": "L"
+                },
+                {
+                    "fsCode": "BA",
+                    "flightNumber": "1511",
+                    "relationship": "L"
+                },
+                {
+                    "fsCode": "GF",
+                    "flightNumber": "6654",
+                    "relationship": "L"
+                },
+                {
+                    "fsCode": "IB",
+                    "flightNumber": "4218",
+                    "relationship": "L"
+                },
+                {
+                    "fsCode": "LY",
+                    "flightNumber": "8051",
+                    "relationship": "L"
+                }
+            ],
+            "flightDurations": {
+                "scheduledBlockMinutes": 430,
+                "scheduledAirMinutes": 385,
+                "scheduledTaxiOutMinutes": 35,
+                "taxiOutMinutes": 46,
+                "scheduledTaxiInMinutes": 10
+            },
+            "airportResources": {
+                "departureTerminal": "8",
+                "departureGate": "4",
+                "arrivalTerminal": "3"
+            },
+            "flightEquipment": {
+                "scheduledEquipmentIataCode": "77W",
+                "actualEquipmentIataCode": "77W",
+                "tailNumber": "N717AN"
+            }
+        }
+    ]
+}
