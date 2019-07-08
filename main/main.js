@@ -28,5 +28,6 @@ app.post('/flightcheck', (req, res) => {
 });
 
 app.post('/markdown-link', (req, res)=> {
-    markdown_link.data.formatLink(req.body.text, res);
+    markdown_link.data.formatLink(req.body.text, req.body.response_url, res);
+    console.log(req.body)
 });
