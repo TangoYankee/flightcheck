@@ -1,4 +1,4 @@
-const flightstats = require('./apps/flightcheck/flightstats.js')
+const flightstats = require('./apps/flightcheck/flightstats.js');
 const slack = require('./apps/slack/slack.js');
 const markdown_link = require('./apps/markdown_link/link.js');
 var config = require('./config.js');
