@@ -1,6 +1,6 @@
 const flightstats = require('./apps/flightcheck/flightstats.js');
 const slack = require('./apps/slack/slack.js');
-const markdown_link = require('./apps/markdown_link/link.js');
+const simple_links = require('./apps/simplelinks/simple_links.js');
 var config = require('./config.js');
 
 var express = require('express');
@@ -27,7 +27,7 @@ app.post('/flightcheck', (req, res) => {
     flightstats.data.controlInput(req.body.text, res);
 });
 
-app.post('/markdown-link', (req, res)=> {
-    markdown_link.data.formatLink(req.body.text, req.body.response_url, res);
-    console.log(req.body)
+app.post('/simplelinks', (req, res)=> {
+    simple_links.data.simpleLinks(req.body.text, req.body.response_url, res);
+    console.log(req.body.text)
 });
