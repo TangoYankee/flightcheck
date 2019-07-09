@@ -30,7 +30,7 @@ messages.preview = (formatted_message) => {
                 "type": "section",
                 "text": {
                     "type": "mrkdwn",
-                    "text": formatted_message
+                    "text": `${formatted_message} Here in my <http://dmv.ca.gov|car> at I feel <https://www.osha.com/|safest of all>. <http://example.com|Example site>`
                 }
             }
         ]
@@ -58,21 +58,6 @@ messages.discard = () => {
     return {
         "response_type": "ephemeral",
         "delete_original": "true"
-    }
-}
-
-messages.loading = () => {
-    return {
-        "response_type": "ephemeral",
-        "blocks": [
-            {
-                "type": "section",
-                "text": {
-                    "type": "mrkdwn",
-                    "text": "loading"
-                }
-            }
-        ]
     }
 }
 
