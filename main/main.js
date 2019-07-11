@@ -1,6 +1,6 @@
 const flightstats = require('./apps/flightcheck/flightstats.js');
 const slack = require('./apps/slack/slack.js');
-const simple_links = require('./apps/simplelinks/simple_links.js');
+const markdownlinks = require('./apps/markdownlinks/markdownlinks.js');
 var config = require('./config.js');
 
 var express = require('express');
@@ -15,19 +15,25 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 app.listen(PORT);
 
-app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname + '/templates/index.html'))
+app.get('/', (request, response) => {
+    response.sendFile(path.join(__dirname + '/templates/markdownlinks.html'))
 });
 
-app.get('/oauth', (req, res) => {
-    slack.data.oauth(req, res);
+app.get('/oauth', (request, response) => {
+    slack.data.oauth(request, response);
 });
 
-app.post('/flightcheck', (req, res) => {
-    flightstats.data.controlInput(req.body.text, res);
+app.post('/flightcheck', (request, response) => {
+    flightstats.data.controlInput(request.body.text, response);
 });
 
-app.post('/simplelinks', (req, res)=> {
-    simple_links.data.simpleLinks(req.body.text, req.body.response_url, res);
-    console.log(req.body.text)
+app.post('/markdownlinks', (request, response) => {
+    markdownlinks.data.simpleLinks(request.body, response);
 });
+
+app.post('/confirm' , (request, response) => {
+    markdownlinks.data.composeFinalMessage(JSON.parse(request.body.payload), response);
+    // Function to direct response to message
+    var json_payload = JSON.parse(request.body.payload);
+    console.log(`payload: ${json_payload.response_url}`);
+})
