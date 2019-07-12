@@ -68,27 +68,27 @@ allLinks = (bracket_parens, open_brackets, close_parens) => {
 // Iterate through all of the nested arrays and perform functions up to formatmessage
 // Return formatted message
 
-// FUNCTION: validLinkFormat
+// FUNCTION: validLink
 // accepts a 1 dimensional array
 // returns boolean whether array passes test
 // Checks that all three positions exist with valid numbers
 // The every() method tests whether all elements in the array pass the test implemented by the provided function. It returns a Boolean value.
 
-// FUNCTION: originalMarkdownLink:
+// FUNCTION: findMarkdownLink:
 // accepts validated 1 dimensional array of bracket/parens postions and string of user-inputted text
 // returns value of string that exists between the first and third positions (open bracket and closed parens)
 
-// FUNCTION: textDisplay
+// FUNCTION: findDisplayText
 // accepts validated 1 dimensional array of bracket/parens postions and string of user-inputted text
 // Returns text (string) that exists between the first and second listed indexes in the array (Opn bracket and bracket parens)
 // Note: Beware of off-by-one errors with indexing
 
-// Function: hyperlink
+// Function: findLinkAddress
 // accepts validated 1 dimensional array of bracket/parens postions and string of user-inputted text
 // Returns link (string) that exists between the second and third listed indexes in the array (bracket parens and closed parens)
 // Note: Beware of off-by-one errors with indexing
 
-// Function: checkHttp
+// Function: httpLinkAddress
 // accepts hyperlink string
 // returns a hyperlink gauranteed to contain http:// or https://
 // checks whether "http://" or "https://" exists in the string

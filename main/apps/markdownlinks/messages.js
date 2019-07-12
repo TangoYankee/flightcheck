@@ -1,8 +1,7 @@
 messages = {};
-// Decompose into a message constructor, eventually
 
 
-messages.help = (feedback) => {
+messages.helpMessage = (feedback) => {
     return {
         "response_type": "ephemeral",
         "blocks": [{
@@ -54,7 +53,8 @@ messages.help = (feedback) => {
     }
 }
 
-messages.markdown = (markdown_message, user_id) => {
+
+messages.markdownMessage = (markdown_format, user_id) => {
     return {
         "response_type": "in_channel",
         "blocks": [
@@ -62,7 +62,7 @@ messages.markdown = (markdown_message, user_id) => {
                 "type": "section",
                 "text": {
                     "type": "mrkdwn",
-                    "text": `${markdown_message}`
+                    "text": `${markdown_format}`
                 }
             },
             {
@@ -89,8 +89,7 @@ messages.markdown = (markdown_message, user_id) => {
 }
 
 
-messages.delete = () => {
-    // delete the initial message
+messages.deleteMessage = () => {
     return {
         "response_type": "ephemeral",
         "delete_original": "true",
@@ -99,14 +98,15 @@ messages.delete = () => {
                 "type": "section",
                 "text": {
                     "type": "mrkdwn",
-                    "text": "this message will self-destruct when your workspace refreshes"
+                    "text": ":warning:this message will self-destruct when your workspace refreshes"
                 }
             }
         ]
     }
 }
 
-messages.error = () => {
+
+messages.errorMessage = () => {
     // delete the initial message
     return {
         "response_type": "ephemeral",
@@ -116,11 +116,12 @@ messages.error = () => {
                 "type": "section",
                 "text": {
                     "type": "mrkdwn",
-                    "text": "command not recongized"
+                    "text": ":warning:command not recongized"
                 }
             }
         ]
     }
 }
+
 
 exports.data = messages;
