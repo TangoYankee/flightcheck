@@ -53,7 +53,7 @@ allLinkPositions = (bracket_parentheses, open_bracket_indices, close_parenthesis
             close_parenthesis_index = close_parenthesis_indices.filter(each_close_parenthesis_index => each_close_parenthesis_index > bracket_parenthesis_index);         
             link_positions[2] = close_parenthesis_index[0];
         } else if(bracket_parentheses_len >= 2){
-            if( i == bracket_parentheses_len){
+            if( (i+1) == bracket_parentheses_len){
                 open_bracket_index = open_bracket_indices.filter(each_open_bracket_index => each_open_bracket_index < bracket_parenthesis_index);
                 link_positions[0] = every_open_bracket_index.pop();
             } else {
