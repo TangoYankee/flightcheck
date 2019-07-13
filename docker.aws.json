@@ -1,5 +1,5 @@
 {
-    "AWSEBDockerrunVersion": "1.1",
+    "AWSEBDockerrunVersion": "1",
     "Image": { 
         "Name": "tangoyankee/flightcheck",
         "Update": true
