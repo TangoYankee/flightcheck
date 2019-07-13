@@ -14,14 +14,14 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 app.listen(PORT);
 
-app.get('/', (request, response) => {
-    response.sendFile(path.join(__dirname + '/templates/index.html'))
+app.get('/', (req, res) => {
+    res.sendFile(path.join(__dirname + '/templates/index.html'))
 });
 
-app.get('/oauth', (request, response) => {
-    slack.data.oauth(request, response);
+app.get('/oauth', (req, res) => {
+    slack.data.oauth(req, res);
 });
 
-app.post('/flightcheck', (request, response) => {
-    flightstats.data.controlInput(request.body.text, response);
+app.post('/flightcheck', (req, res) => {
+    flightstats.data.controlInput(req.body.text, res);
 });
