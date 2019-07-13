@@ -107,7 +107,6 @@ messages.deleteMessage = () => {
 
 
 messages.errorMessage = () => {
-    // delete the initial message
     return {
         "response_type": "ephemeral",
         "delete_original": "false",

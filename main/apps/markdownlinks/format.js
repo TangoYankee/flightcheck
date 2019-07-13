@@ -1,11 +1,10 @@
 format = (text) => {
-    var text = "Here[ in my [car](dmv.ca.gov) I) feel [safest of all](https://www.osha.com/). [Example site](example.com) +";
-    var bracket_parentheses = allIndexOf(text, "](");
-    var open_brackets = allIndexOf(text, "[");
-    var close_parentheses = allIndexOf(text, ")");
-    if (bracket_parentheses) {
+    var brackets_parentheses = allIndexOf(text, "](");
+    var brackets = allIndexOf(text, "[");
+    var parentheses = allIndexOf(text, ")");
+    if (brackets_parentheses) {
         var message = text;
-        var all_link_positions = allLinkPostions(bracket_parentheses, open_brackets, close_parentheses);
+        var all_link_positions = allLinkPostions(brackets_parentheses, brackets, parentheses);
         for (link_positions in all_link_positions) {
             if (validLinkPositions(link_positions)) {
                 var link_string = findLinkString(link_positions, text);
@@ -33,81 +32,97 @@ allIndexOf = (string, search_char) => {
 }
 
 
-//Notes:
-// The filter() method creates a new array with all elements that pass the test implemented by the provided function.
-// The pop() method removes the last element from an array and returns that element. This method changes the length of the array.
-// Can also be used to get the last element of an array
+allLinkPositions = (brackets_parentheses, brackets, parentheses) => {
+    var all_positions = [];
+    var brackets_parentheses_len = brackets_parentheses.length;
+    for (var i = 0; i < brackets_parentheses_len; i++) {
+        var previous_position = findPreviousPosition(i, brackets_parentheses);
+        var current_position = brackets_parentheses[i]
+        var next_position = findNextPosition(i, brackets_parentheses, brackets_parentheses_len);
 
-// alliLnks will return an array of arrays. The nested arrays will contain a set of bracket and parens
-allLinkPositions = (bracket_parentheses, open_bracket_indices, close_parenthesis_indices) => {
-    var all_link_positions = [];
-    var bracket_parentheses_len = bracket_parentheses.length;
-    for (let i = 0; i < bracket_parentheses_len; i++) {
-        var open_bracket_index;
-        var bracket_parenthesis_index = bracket_parentheses[i];
-        var close_parenthesis_index;
-        var link_positions = [open_bracket_index, bracket_parenthesis_index, close_parenthesis_index];
-        if (bracket_parentheses_len == 1){
-            open_bracket_index = open_bracket_indices.filter(each_open_bracket_index => each_open_bracket_index < bracket_parenthesis_index);
-            link_positions[0] = every_open_bracket_index.pop();
-            close_parenthesis_index = close_parenthesis_indices.filter(each_close_parenthesis_index => each_close_parenthesis_index > bracket_parenthesis_index);         
-            link_positions[2] = close_parenthesis_index[0];
-        } else if(bracket_parentheses_len >= 2){
-            if( (i+1) == bracket_parentheses_len){
-                open_bracket_index = open_bracket_indices.filter(each_open_bracket_index => each_open_bracket_index < bracket_parenthesis_index);
-                link_positions[0] = every_open_bracket_index.pop();
-            } else {
-                
-            }
-        }
-        // If it's the first element
-        // then filter for all of the open brackets before the brack paren
-        // If it is not the first element,
-        // Find the value of the previous index
-        // Filter for all of the closed parens that are between the current index and the previous index
-        // Pop and save the last element in list of closed parens to the first element of the nested array
-        // If it's the last index
-        // then filter for all closed parentheses after the position of the bracket paren
-        // If there is another index after the current index
-        // Find the value of the next index
-        // Filter for all of the closed parenthesis between the current index and the next index
-        // Add the value of the first result to the last position of the nested array
-        // Add the nested array to the master array
+        var positions = [undefined, current_position, undefined];
+        positions[0] = findOpenBracket(brackets, current_position, previous_position);
+        positions[2] = findClosedParenthensis(parentheses, current_position, next_position);
+
+        all_positions.push(positions);
+    }
+    return all_positions;
+}
+
+
+findPreviousPosition = (i, brackets_parentheses) => {
+    if (i == 0) {
+        return 0;
+    } else {
+        var j = i - 1;
+        return brackets_parentheses[j];
     }
 }
 
 
-validLinkPositions = (link_positions) => {
-    // There are three values and every value is a number
-    return (link_positions.length == 3 && link_positions.every(isNumber))
+findNextPosition = (i, brackets_parentheses, bracket_parentheses_len) => {
+    if (i == (bracket_parentheses_len - 1)) {
+        return parentheses.pop();
+    } else {
+        var k = i + 1;
+        return brackets_parentheses[k];
+    }
 }
+
+
+findClosedParenthensis = (parentheses, current_position, next_position) => {
+    filtered_parentheses = parentheses.filter(parenthesis => parenthesis > current_position && parenthesis <= next_position);
+    return filtered_parentheses[0];
+}
+
+
+findOpenBracket = (brackets, current_position, previous_position) => {
+    filtered_brackets = brackets.filter(bracket => bracket < current_position && bracket >= previous_position);
+    return filtered_brackets.pop();
+}
+
+
+validLinkPositions = (link_positions) => {
+    has_values = link_positions.every(value => value);
+    correct_length = link_positions.length == 3;
+    correct_order = (link_positions[0] < link_positions[1] && link_positions[1] < link_positions[2])
+    return (correct_length && has_vaues && correct_order)
+}
+
 
 findMarkdownLink = (link_positions, text) => {
     return text.splice(link_positions[0], link_positions[2]);
 }
 
+
 findLinkString = (link_positions, text) => {
     return text.splice(link_positions[0], link_positions[1]);
 }
+
 
 findLinkAddress = (link_positions, text) => {
     return text.splice(link_positions[1], link_positions[2]);
 }
 
-httpLinkAddress = (unhttped_link_address) => {
-    if (unhttped_link_address.includes("http://") || unhttped_link_address.includes("https://")) {
-        return unhttped_link_address;
+
+httpLinkAddress = (link_address) => {
+    lower_case_address = link_address.toLowerCase();
+    if (lower_case_address.includes("http://") || lower_case_address.includes("https://")) {
+        return link_address;
     } else {
-        return `https://${unhttped_link_address}`;
+        return `https://${link_address}`;
     }
 }
+
 
 createMessageLink = (link_address, display_text) => {
     return `<${link_address}|${display_text}>`;
 }
 
+
 replaceLink = (markdown_link, message_link, message) => {
     return message.replace(markdown_link, message_link, message);
 }
+
 
 module.exports = format;
